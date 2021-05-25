@@ -22,9 +22,152 @@
 		text_field.value = text_field.value + value
     }
 	
-	function solve() {
+	function solve_function() {
+		var precedence = {"+":0,"-":0,"x":1,"/":1,"^":2}
+		var text_field = document.getElementById("screen")
+		var infix_expression = text_field.value.split("")
+		var numeric_check = "-?[0-9]+"
+		var number = null
+		var sum = 0
+		var neg = false
+		var operator_stack = []
+		var postfix_stack = []
+		for(var i = 0; i < infix_expression.length; i++){
+			// Check if a number is still being read in
+			if(infix_expression[i].match(numeric_check)){
+				number = (number == null ? Number(infix_expression[i]) : number * 10 + Number(infix_expression[i]))
+			}
+			
+			else if(infix_expression[i] == "^" || infix_expression[i] == "("){
+				if(number != null){		
+					if(neg){
+						number *= -1
+						neg = false
+					}
+					
+					postfix_stack.push(number)
+					number = null;
+				}
+				operator_stack.push(infix_expression[i])
+			}
+			
+			else if(infix_expression[i] == ")"){
+				if(number != null){		
+					if(neg){
+						number *= -1
+						neg = false
+					}
+				
+					postfix_stack.push(number)
+					number = null;
+				}
+				
+				var j = operator_stack.length - 1
+				while(j >= 0 && operator_stack[j] != "("){
+					postfix_stack.push(operator_stack.pop())
+					j--
+				}
+				
+				if(operator_stack[j] == "("){
+					operator_stack.pop()
+				}
+			}
+			
+			else{
+				// Minus sign is a special case that needs to be handled for negative numbers
+				if(infix_expression[i] == "-" && (i == 0 || !(infix_expression[i - 1].match(numeric_check)))){
+					neg = !neg
+				}
+				
+				// If minus sign is for subtraction, proceed as normal
+				else{
+					if(number != null){		
+						if(neg){
+							number *= -1
+							neg = false
+						}
+					
+						postfix_stack.push(number)
+						number = null;
+					}
+				
+					var curr_precedence = precedence[infix_expression[i]]
+					var j = operator_stack.length - 1
+					
+					while(j >= 0 && operator_stack[j] != "(" && precedence[operator_stack[j]] >= curr_precedence){
+						postfix_stack.push(operator_stack.pop())
+						j--
+					}
+					
+					operator_stack.push(infix_expression[i])
+				}
+			}
+		}
+		
+		if(number != null){		
+			if(neg){
+				number *= -1
+				neg = false
+			}
+				
+			postfix_stack.push(number)
+			number = null;
+		}
+		
+		while(operator_stack.length > 0){
+			postfix_stack.push(operator_stack.pop())
+		}
+		
+		// Now that solvable postfix is given, actually solve it
+		var answer_stack = []
+		
+		for(var i = 0; i < postfix_stack.length; i++){
+			if((typeof postfix_stack[i]) == "number"){
+				answer_stack.push(postfix_stack[i])
+			}
+			
+			else{
+				var operand2 = answer_stack.pop()
+				var operand1 = answer_stack.pop()
+				var operator = postfix_stack[i]
+				
+				if(operator == "+"){
+					answer_stack.push(operand1 + operand2)
+				}
+				
+				else if(operator == "-"){
+					answer_stack.push(operand1 - operand2)
+				}
+				
+				else if(operator == "x"){
+					answer_stack.push(operand1 * operand2)
+				}
+				
+				else if(operator == "/"){
+					answer_stack.push(operand1 / (operand2))
+				}
+				
+				else if(operator == "^"){
+					answer_stack.push(Math.pow(operand1, operand2))
+				}
+			}
+		}
+		
+		if(answer_stack.length != 1 || (typeof answer_stack[0]) != "number"){
+			text_field.value = "Err"
+		}
+		
+		else{
+			text_field.value = answer_stack[0]
+		}
 		
     }
+	
+	function clear_screen() {
+		var text_field = document.getElementById("screen")
+		text_field.value = ""
+	}
+	
 </script> 
 
 </head>
@@ -34,7 +177,7 @@
 	<h1>Calculator Test</h1>
 	
 	<div>
-		<input id="screen" type="text" readonly=true autocomplete=off style="text-align:right;">
+		<input id="screen" type="text" value="(98-86/2)+(56-7)x(2+8/4)" readonly=true autocomplete=off style="text-align:right;">
 		<div>
 			<input type="button" value="1" onclick=calcInput("1")>
 			<input type="button" value="2" onclick=calcInput("2")>
@@ -55,13 +198,16 @@
 			<input type="button" value="0" onclick=calcInput("0")>
 			<input type="button" value=")" onclick=calcInput(")")>
 		</div>
+		<div>
 			<input type="button" value="+" onclick=calcInput("+")>
 			<input type="button" value="-" onclick=calcInput("-")>
 			<input type="button" value="x" onclick=calcInput("x")>
 			<input type="button" value="/" onclick=calcInput("/")>
+			<input type="button" value="^" onclick=calcInput("^")>
 		</div>
 		<div>
-			<input type="button" value="=" onclick=solve()>
+			<input type="button" value="=" onclick=solve_function()>
+			<input type="button" value="C" onclick=clear_screen()>
 		</div>		
 	</div>
 </body>
