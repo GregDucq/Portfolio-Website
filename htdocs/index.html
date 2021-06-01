@@ -4,14 +4,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Test Page for Apache Installation</title>
 <link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="css/stylesheet.css">
+<link rel="stylesheet" href="/css/stylesheet.css">
 
 <script type = "text/javascript">
 	var answer_posted = false
 	
+	function changeFocus(state){
+		var text_field = document.getElementById("screen")
+		
+		if(state){
+			text_field.style.backgroundColor = '#DDDDFF'
+		}
+		
+		else{
+			text_field.style.backgroundColor = '#FFFFFF'
+		}
+	}
+	
 	function processInput(event){
 		val = event.which
-		
 		
 		// Check if number, +, -, x, *, /, ^, ., (, or )
 		if((val >= 48 && val <= 57) || val == 43 || val == 45 || val == 120 || val == 42 || val == 47 || val == 94 || val == 40 || val == 41 || val == 46){
@@ -176,7 +187,7 @@
 	<h1>Calculator Test</h1>
 	
 	<div>
-		<input id="screen" type="text" value="" readonly=true onkeypress=processInput(event) autocomplete=off style="text-align:right;">
+		<input id="screen" class="calculator-screen" type="text" value="" onfocus=changeFocus(true) onblur=changeFocus(false) readonly=true onkeypress=processInput(event) autocomplete=off style="text-align:right;">
 		<div>
 			<input type="button" value="1" onclick=calcInput("1")>
 			<input type="button" value="2" onclick=calcInput("2")>
