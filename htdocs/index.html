@@ -9,14 +9,14 @@
 <script type = "text/javascript">
 	var answer_posted = false
 	
-	function Root(node){
-		this.root = node
-	}
-	
-	function Node(left, right, operator){
-		this.left = left
-		this.operator = operator
-		this.right = right
+	function processInput(event){
+		val = event.which
+		
+		
+		// Check if number, +, -, x, *, /, ^, ., (, or )
+		if((val >= 48 && val <= 57) || val == 43 || val == 45 || val == 120 || val == 42 || val == 47 || val == 94 || val == 40 || val == 41 || val == 46){
+			calcInput(String.fromCharCode(val))
+		}
 	}
 
 	function calcInput(value) {
@@ -35,7 +35,7 @@
 		var infix_expression = text_field.value
 		var numeric_check = /^-?\d+(\.\d+)?$/
 		
-		var precedence = {"+":0,"-":0,"x":1,"/":1,"^":2}
+		var precedence = {"+":0,"-":0,"x":1,"*": 1,"/":1,"^":2}
 		var operator_stack = []
 		var postfix_stack = []
 		
@@ -137,7 +137,7 @@
 					answer_stack.push(operand1 - operand2)
 				}
 				
-				else if(operator == "x"){
+				else if(operator == "x" || operator == "*"){
 					answer_stack.push(operand1 * operand2)
 				}
 				
@@ -152,8 +152,7 @@
 		}
 		
 		if(answer_stack.length != 1 || (typeof answer_stack[0]) != "number"){
-			text_field.value = "Err"
-			
+			text_field.value = "err"
 		}
 		
 		else{
@@ -177,7 +176,7 @@
 	<h1>Calculator Test</h1>
 	
 	<div>
-		<input id="screen" type="text" value="-8.73-6.71-(-3.21)" readonly=true autocomplete=off style="text-align:right;">
+		<input id="screen" type="text" value="" readonly=true onkeypress=processInput(event) autocomplete=off style="text-align:right;">
 		<div>
 			<input type="button" value="1" onclick=calcInput("1")>
 			<input type="button" value="2" onclick=calcInput("2")>
