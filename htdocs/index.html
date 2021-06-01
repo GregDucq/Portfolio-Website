@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="css/stylesheet.css">
 
 <script type = "text/javascript">
+	var answer_posted = false
+	
 	function Root(node){
 		this.root = node
 	}
@@ -19,99 +21,95 @@
 
 	function calcInput(value) {
 		var text_field = document.getElementById("screen")
+		
+		if(answer_posted){
+			text_field.value = ""
+			answer_posted = false
+		}
+		
 		text_field.value = text_field.value + value
     }
 	
 	function solve_function() {
-		var precedence = {"+":0,"-":0,"x":1,"/":1,"^":2}
 		var text_field = document.getElementById("screen")
-		var infix_expression = text_field.value.split("")
-		var numeric_check = "-?[0-9]+"
-		var number = null
-		var sum = 0
-		var neg = false
+		var infix_expression = text_field.value
+		var numeric_check = /^-?\d+(\.\d+)?$/
+		
+		var precedence = {"+":0,"-":0,"x":1,"/":1,"^":2}
 		var operator_stack = []
 		var postfix_stack = []
-		for(var i = 0; i < infix_expression.length; i++){
-			// Check if a number is still being read in
-			if(infix_expression[i].match(numeric_check)){
-				number = (number == null ? Number(infix_expression[i]) : number * 10 + Number(infix_expression[i]))
+		
+		var temp_num = ""
+		var i = 0
+		
+		while(i <= infix_expression.length){
+			var val = infix_expression.charAt(i)
+			
+			// First, check if character is part of number in expression. If it is, track it as part of current number in expression
+			if(val != '+' && (val != '-' || i == 0) && val != 'x' && val != '/' && val != '^' && val != '(' && val != ')'){
+				temp_num += val
+				i++
 			}
 			
-			else if(infix_expression[i] == "^" || infix_expression[i] == "("){
-				if(number != null){		
-					if(neg){
-						number *= -1
-						neg = false
-					}
-					
-					postfix_stack.push(number)
-					number = null;
-				}
-				operator_stack.push(infix_expression[i])
-			}
-			
-			else if(infix_expression[i] == ")"){
-				if(number != null){		
-					if(neg){
-						number *= -1
-						neg = false
-					}
-				
-					postfix_stack.push(number)
-					number = null;
-				}
-				
-				var j = operator_stack.length - 1
-				while(j >= 0 && operator_stack[j] != "("){
-					postfix_stack.push(operator_stack.pop())
-					j--
-				}
-				
-				if(operator_stack[j] == "("){
-					operator_stack.pop()
-				}
-			}
-			
+			// Otherwise, do what is needed for postfix conversion
 			else{
-				// Minus sign is a special case that needs to be handled for negative numbers
-				if(infix_expression[i] == "-" && (i == 0 || !(infix_expression[i - 1].match(numeric_check)))){
-					neg = !neg
+				if(temp_num != "" && !temp_num.match(numeric_check)){
+					text_field.value = "err"
+					answer_posted = true
+					return
 				}
 				
-				// If minus sign is for subtraction, proceed as normal
 				else{
-					if(number != null){		
-						if(neg){
-							number *= -1
-							neg = false
+					if(temp_num != ""){
+						postfix_stack.push(Number(temp_num))
+						temp_num = ""
+					}
+					
+					infix_expression = infix_expression.substring(i + 1)
+					i = 0
+					
+					if(val == "^" || val == "("){						
+						operator_stack.push(val)
+					}
+					
+					else if(val == ")"){						
+						var j = operator_stack.length - 1
+						while(j >= 0 && operator_stack[j] != "("){
+							postfix_stack.push(operator_stack.pop())
+							j--
 						}
-					
-						postfix_stack.push(number)
-						number = null;
-					}
-				
-					var curr_precedence = precedence[infix_expression[i]]
-					var j = operator_stack.length - 1
-					
-					while(j >= 0 && operator_stack[j] != "(" && precedence[operator_stack[j]] >= curr_precedence){
-						postfix_stack.push(operator_stack.pop())
-						j--
+						
+						if(operator_stack[j] == "("){
+							operator_stack.pop()
+						}
 					}
 					
-					operator_stack.push(infix_expression[i])
+					else{
+						var curr_precedence = precedence[val]
+						var j = operator_stack.length - 1
+							
+						while(j >= 0 && operator_stack[j] != "(" && precedence[operator_stack[j]] >= curr_precedence){
+							postfix_stack.push(operator_stack.pop())
+							j--
+						}
+							
+						operator_stack.push(val)
+					}
 				}
 			}
 		}
 		
-		if(number != null){		
-			if(neg){
-				number *= -1
-				neg = false
+		if(temp_num != "" && !temp_num.match(numeric_check)){
+			text_field.value = "err"
+			answer_posted = true
+			return
+		}
+		
+		else{
+			if(temp_num != ""){
+				postfix_stack.push(Number(temp_num))
+				temp_num = ""
 			}
-				
-			postfix_stack.push(number)
-			number = null;
 		}
 		
 		while(operator_stack.length > 0){
@@ -155,12 +153,14 @@
 		
 		if(answer_stack.length != 1 || (typeof answer_stack[0]) != "number"){
 			text_field.value = "Err"
+			
 		}
 		
 		else{
 			text_field.value = answer_stack[0]
 		}
 		
+		answer_posted = true
     }
 	
 	function clear_screen() {
@@ -177,7 +177,7 @@
 	<h1>Calculator Test</h1>
 	
 	<div>
-		<input id="screen" type="text" value="(98-86/2)+(56-7)x(2+8/4)" readonly=true autocomplete=off style="text-align:right;">
+		<input id="screen" type="text" value="-8.73-6.71-(-3.21)" readonly=true autocomplete=off style="text-align:right;">
 		<div>
 			<input type="button" value="1" onclick=calcInput("1")>
 			<input type="button" value="2" onclick=calcInput("2")>
@@ -194,17 +194,20 @@
 			<input type="button" value="9" onclick=calcInput("9")>
 		</div>
 		<div>
-			<input type="button" value="(" onclick=calcInput("(")>
+			<input type="button" value="." onclick=calcInput(".")>
 			<input type="button" value="0" onclick=calcInput("0")>
+			<input type="button" value="(" onclick=calcInput("(")>
 			<input type="button" value=")" onclick=calcInput(")")>
 		</div>
 		<div>
 			<input type="button" value="+" onclick=calcInput("+")>
 			<input type="button" value="-" onclick=calcInput("-")>
 			<input type="button" value="x" onclick=calcInput("x")>
+		</div>
+		<div>
 			<input type="button" value="/" onclick=calcInput("/")>
 			<input type="button" value="^" onclick=calcInput("^")>
-		</div>
+		</div>	
 		<div>
 			<input type="button" value="=" onclick=solve_function()>
 			<input type="button" value="C" onclick=clear_screen()>
