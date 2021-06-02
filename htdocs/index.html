@@ -56,7 +56,7 @@
 		var infix_expression = text_field.value
 		var numeric_check = /^-?\d+(\.\d+)?$/
 		
-		var precedence = {"+":0,"-":0,"x":1,"*": 1,"/":1,"^":2}
+		var precedence = {"+":0,"-":0,"x":1,"*":1,"/":1,"^":2}
 		var operator_stack = []
 		var postfix_stack = []
 		
@@ -67,7 +67,7 @@
 			var val = infix_expression.charAt(i)
 			
 			// First, check if character is part of number in expression. If it is, track it as part of current number in expression
-			if(val != '+' && (val != '-' || i == 0) && val != 'x' && val != '/' && val != '^' && val != '(' && val != ')'){
+			if(val != '+' && (val != '-' || i == 0) && val != 'x' && val != '*' && val != '/' && val != '^' && val != '(' && val != ')'){
 				temp_num += val
 				i++
 			}
@@ -197,7 +197,7 @@
 	<h1>Calculator Test</h1>
 	
 	<div class="calculator">
-		<input id="screen" type="text" value="" 
+		<input id="screen" type="text" value="64.7-(54x-3)^2" 
 			onfocus=changeFocus(true) 
 			onblur=changeFocus(false) 
 			readonly=true 
