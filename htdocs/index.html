@@ -22,11 +22,21 @@
 	}
 	
 	function processInput(event){
-		val = event.which
+		val = event.key.charCodeAt(0)
+		text_field = document.getElementById("screen")
 		
 		// Check if number, +, -, x, *, /, ^, ., (, or )
 		if((val >= 48 && val <= 57) || val == 43 || val == 45 || val == 120 || val == 42 || val == 47 || val == 94 || val == 40 || val == 41 || val == 46){
 			calcInput(String.fromCharCode(val))
+		}
+		
+		// Check if backspace was pressed
+		else if(val == 66 && text_field.value.length > 0){
+			text_field.value = text_field.value.substring(0, text_field.value.length - 1)
+		}
+		
+		else if(val == 	69){
+			solve_function()
 		}
 	}
 
@@ -186,8 +196,14 @@
 	
 	<h1>Calculator Test</h1>
 	
-	<div>
-		<input id="screen" class="calculator-screen" type="text" value="" onfocus=changeFocus(true) onblur=changeFocus(false) readonly=true onkeypress=processInput(event) autocomplete=off style="text-align:right;">
+	<div class="calculator">
+		<input id="screen" type="text" value="" 
+			onfocus=changeFocus(true) 
+			onblur=changeFocus(false) 
+			readonly=true 
+			onkeydown=processInput(event) 
+			autocomplete=off 
+			style="text-align:right;">
 		<div>
 			<input type="button" value="1" onclick=calcInput("1")>
 			<input type="button" value="2" onclick=calcInput("2")>

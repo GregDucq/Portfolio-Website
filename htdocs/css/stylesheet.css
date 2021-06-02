@@ -2,7 +2,13 @@ h1 {
   color: blue;
 }
 
-.calculator-screen{
+.calculator #screen{
 	border: solid 0.666667px #000000;
-	padding: 1.33333px
+	padding: 1.33333px;
+	margin: 0 0 1em;
+	
+}
+
+.calculator input[type=button]{
+	width:30px;
 }
