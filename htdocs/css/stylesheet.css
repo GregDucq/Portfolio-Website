@@ -1,14 +1,58 @@
 h1 {
   color: blue;
+  text-align:center;
+}
+
+/*-----------------------------------------------
+
+Styling rules for the calculator
+
+-----------------------------------------------*/
+.calculator{
+	width: 168px;
+	padding: 20px;
+	margin: 0 auto;
+	border: solid 3px #000000;
+	text-align:center;
 }
 
 .calculator #screen{
-	border: solid 0.666667px #000000;
-	padding: 1.33333px;
-	margin: 0 0 1em;
-	
+	width: 155px;
+	border: solid 1px #000000;
+	margin: 0 0 20px;
+	text-align: right;
 }
 
+.calculator .buttons{
+	margin: 0 auto;
+}
+
+/* Note: space of input button is width plus 4px (2px border on both sides) */
 .calculator input[type=button]{
 	width:30px;
+	height:22px;
+	margin: 3px 2px; 
+}
+
+/* Rows of calculator buttons */
+.calculator .number-buttons div,.calculator .operator-buttons div{
+	/*padding: 0 34px;*/
+	width: 148px;
+	margin: 0 auto;
+	text-align:left;
+}
+
+.calculator .number-buttons, .calculator .operator-buttons{
+	width: 152px;
+	padding: 6px 4px;
+	border: solid 3px #000077;
+	margin: 10px auto;
+}
+
+.calculator .number-buttons{
+	margin-bottom: 25px;
+}
+
+.calculator .operator-buttons{
+	margin-top: 25px;
 }

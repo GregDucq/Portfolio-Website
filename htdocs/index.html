@@ -202,42 +202,47 @@
 			onblur=changeFocus(false) 
 			readonly=true 
 			onkeydown=processInput(event) 
-			autocomplete=off 
-			style="text-align:right;">
-		<div>
-			<input type="button" value="1" onclick=calcInput("1")>
-			<input type="button" value="2" onclick=calcInput("2")>
-			<input type="button" value="3" onclick=calcInput("3")>
+			autocomplete=off >
+		<div class="buttons">
+			<div class="number-buttons">
+				<div>
+					<input type="button" value="1" onclick=calcInput("1")>
+					<input type="button" value="2" onclick=calcInput("2")>
+					<input type="button" value="3" onclick=calcInput("3")>
+				</div>
+				<div>
+					<input type="button" value="4" onclick=calcInput("4")>
+					<input type="button" value="5" onclick=calcInput("5")>
+					<input type="button" value="6" onclick=calcInput("6")>
+				</div>
+				<div>
+					<input type="button" value="7" onclick=calcInput("7")>
+					<input type="button" value="8" onclick=calcInput("8")>
+					<input type="button" value="9" onclick=calcInput("9")>
+				</div>
+				<div>
+					<input type="button" value="0" onclick=calcInput("0")>
+					<input type="button" value="." onclick=calcInput(".")>
+					<input type="button" value="(" onclick=calcInput("(")>
+					<input type="button" value=")" onclick=calcInput(")")>
+				</div>
+			</div>
+			<div class="operator-buttons">
+				<div>
+					<input type="button" value="+" onclick=calcInput("+")>
+					<input type="button" value="-" onclick=calcInput("-")>
+					<input type="button" value="*" onclick=calcInput("*")>
+					<input type="button" value="/" onclick=calcInput("/")>
+				</div>
+				<div>
+					<input type="button" value="^" onclick=calcInput("^")>
+				</div>
+				<div>
+					<input type="button" value="=" onclick=solve_function()>
+					<input type="button" value="C" onclick=clear_screen()>
+				</div>
+			</div>
 		</div>
-		<div>
-			<input type="button" value="4" onclick=calcInput("4")>
-			<input type="button" value="5" onclick=calcInput("5")>
-			<input type="button" value="6" onclick=calcInput("6")>
-		</div>
-		<div>
-			<input type="button" value="7" onclick=calcInput("7")>
-			<input type="button" value="8" onclick=calcInput("8")>
-			<input type="button" value="9" onclick=calcInput("9")>
-		</div>
-		<div>
-			<input type="button" value="." onclick=calcInput(".")>
-			<input type="button" value="0" onclick=calcInput("0")>
-			<input type="button" value="(" onclick=calcInput("(")>
-			<input type="button" value=")" onclick=calcInput(")")>
-		</div>
-		<div>
-			<input type="button" value="+" onclick=calcInput("+")>
-			<input type="button" value="-" onclick=calcInput("-")>
-			<input type="button" value="*" onclick=calcInput("*")>
-		</div>
-		<div>
-			<input type="button" value="/" onclick=calcInput("/")>
-			<input type="button" value="^" onclick=calcInput("^")>
-		</div>	
-		<div>
-			<input type="button" value="=" onclick=solve_function()>
-			<input type="button" value="C" onclick=clear_screen()>
-		</div>		
 	</div>
 </body>
 </html>
