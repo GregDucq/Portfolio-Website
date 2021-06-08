@@ -1,4 +1,5 @@
-h1 {
+#project-title {
+  font-family: "Helvetica", sans-serif;
   color: blue;
   text-align:center;
 }
@@ -69,6 +70,7 @@ Styling rules list of previous equations
 
 ------------------------------------------------*/
 #entries-list-title{
+	font-family: "Helvetica", sans-serif;
 	font-size: 20px;
 	text-align: center;
 	margin: 0;	
@@ -81,6 +83,7 @@ Styling rules list of previous equations
 }
 
 #entries{
+	font-family: "Helvetica", sans-serif;
 	padding: 10px;
 	margin: 0;
 }
