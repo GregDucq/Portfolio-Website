@@ -2,12 +2,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Test Page for Apache Installation</title>
+<title>Gregory Ducq's Portfolio</title>
 <link rel="icon" href="/favicon.ico">
 <link rel="stylesheet" href="/css/stylesheet.css">
 
 <script type = "text/javascript">
 	var answer_posted = false
+	var expression_node = null
+	var answer_node = null
+	var total_entered = 0
 	
 	function changeFocus(state){
 		var text_field = document.getElementById("screen")
@@ -35,25 +38,41 @@
 			text_field.value = text_field.value.substring(0, text_field.value.length - 1)
 		}
 		
-		else if(val == 	69){
+		else if(val == 69){
 			solve_function()
 		}
 	}
 
 	function calcInput(value) {
 		var text_field = document.getElementById("screen")
-		
+
 		if(answer_posted){
+			//if(total_entered == 6){
+			
+			//}
+			
+			var entries = document.getElementById("entries")
+			
+			if(entries.innerText.length != 0){
+				entries.appendChild(document.createElement("br"))
+				entries.appendChild(document.createElement("br"))
+			}
+			
+			entries.appendChild(expression_node)
+			entries.appendChild(document.createElement("br"))
+			entries.appendChild(answer_node)
 			text_field.value = ""
+			
 			answer_posted = false
 		}
 		
 		text_field.value = text_field.value + value
     }
-	
+
 	function solve_function() {
 		var text_field = document.getElementById("screen")
 		var infix_expression = text_field.value
+		var infix_temp = infix_expression
 		var numeric_check = /^-?\d+(\.\d+)?$/
 		
 		var precedence = {"+":0,"-":0,"x":1,"*":1,"/":1,"^":2}
@@ -178,13 +197,34 @@
 		
 		else{
 			text_field.value = answer_stack[0]
+			expression_node = document.createTextNode(infix_temp + " =");
+			answer_node = document.createTextNode(answer_stack[0]);
+
+			answer_posted = true
 		}
 		
-		answer_posted = true
     }
 	
 	function clear_screen() {
 		var text_field = document.getElementById("screen")
+		
+		if(answer_posted){
+			var entries = document.getElementById("entries")
+			
+			if(entries.innerText.length != 0){
+				entries.appendChild(document.createElement("br"))
+				entries.appendChild(document.createElement("br"))
+			}
+			
+			entries.appendChild(expression_node)
+			entries.appendChild(document.createElement("br"))
+			entries.appendChild(answer_node)
+			
+			children_text = entries.innerText
+			
+			answer_posted = false
+		}
+		
 		text_field.value = ""
 	}
 	
@@ -195,15 +235,9 @@
 <body>
 	
 	<h1>Calculator Test</h1>
-	
-	<div class="calculator">
-		<input id="screen" type="text" value="" 
-			onfocus=changeFocus(true) 
-			onblur=changeFocus(false) 
-			readonly=true 
-			onkeydown=processInput(event) 
-			autocomplete=off >
-		<div class="buttons">
+	<div class="main-section">	
+		<div class="calculator">
+			<input id="screen" type="text" onfocus=changeFocus(true) onblur=changeFocus(false) readonly=true onkeydown=processInput(event)	autocomplete=off>
 			<div class="number-buttons">
 				<div>
 					<input type="button" value="1" onclick=calcInput("1")>
@@ -241,6 +275,12 @@
 					<input type="button" value="=" onclick=solve_function()>
 					<input type="button" value="C" onclick=clear_screen()>
 				</div>
+			</div>
+		</div>
+		<div class="prev-entries">
+			<p id="entries-list-title">Previous Entries</p>
+			<div id="entries-list">
+				<p id="entries"></p>
 			</div>
 		</div>
 	</div>

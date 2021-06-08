@@ -3,17 +3,27 @@ h1 {
   text-align:center;
 }
 
+.main-section{
+	display: flex;
+	width: 410px;
+	padding: 0 auto;
+	margin: 0 auto;
+		
+}
+
 /*-----------------------------------------------
 
 Styling rules for the calculator
 
------------------------------------------------*/
+------------------------------------------------*/
 .calculator{
+	text-align: center;
 	width: 168px;
+	height: 315px;
 	padding: 20px;
-	margin: 0 auto;
 	border: solid 3px #000000;
-	text-align:center;
+	margin-right: 20px;
+	float: left;
 }
 
 .calculator #screen{
@@ -21,10 +31,6 @@ Styling rules for the calculator
 	border: solid 1px #000000;
 	margin: 0 0 20px;
 	text-align: right;
-}
-
-.calculator .buttons{
-	margin: 0 auto;
 }
 
 /* Note: space of input button is width plus 4px (2px border on both sides) */
@@ -55,4 +61,26 @@ Styling rules for the calculator
 
 .calculator .operator-buttons{
 	margin-top: 25px;
+}
+
+/*-----------------------------------------------
+
+Styling rules list of previous equations
+
+------------------------------------------------*/
+#entries-list-title{
+	font-size: 20px;
+	text-align: center;
+	margin: 0;	
+}
+
+#entries-list{
+	width: 168px;
+	height: 330px;
+	border: solid 3px #000000;
+}
+
+#entries{
+	padding: 10px;
+	margin: 0;
 }
