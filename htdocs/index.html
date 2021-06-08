@@ -46,16 +46,35 @@
 		var text_field = document.getElementById("screen")
 
 		if(answer_posted){
-			//if(total_entered == 6){
-			
-			//}
-			
 			var entries = document.getElementById("entries")
 			
-			if(entries.innerText.length != 0){
-				entries.innerHTML += "<br/><br/>"
+			if(total_entered > 0){
+				prev_answer += "<br/><br/>"
 			}
-			entries.innerHTML += prev_answer
+			
+			if(total_entered == 6){
+				var temp = entries.innerHTML.split("<br>")
+				var tracker = 0
+				
+				entries.innerHTML = ""
+				
+				for(var i = 0; i < temp.length - 3; i++){
+					if(temp[i] != ""){
+						entries.innerHTML += (temp[i] + "<br/>")
+					}
+					
+					else{
+						entries.innerHTML += "<br/>"
+					}
+				}
+			}
+			
+			else{
+				total_entered += 1
+			}
+			
+			entries.innerHTML = prev_answer + entries.innerHTML
+			
 			
 			prev_answer = ""
 			text_field.value = ""
@@ -207,11 +226,33 @@
 		if(answer_posted){
 			var entries = document.getElementById("entries")
 			
-			if(entries.innerText.length != 0){
-				entries.innerHTML += "<br/><br/>"
+			if(total_entered > 0){
+				prev_answer += "<br/><br/>"
 			}
 			
-			entries.innerHTML += prev_answer
+			if(total_entered == 6){
+				var temp = entries.innerHTML.split("<br>")
+				var tracker = 0
+				
+				entries.innerHTML = ""
+				
+				for(var i = 0; i < temp.length - 3; i++){
+					if(temp[i] != ""){
+						entries.innerHTML += (temp[i] + "<br/>")
+					}
+					
+					else{
+						entries.innerHTML += "<br/>"
+					}
+				}
+			}
+			
+			else{
+				total_entered += 1
+			}
+			
+			entries.innerHTML = prev_answer + entries.innerHTML
+			
 			
 			prev_answer = ""
 			text_field.value = ""
