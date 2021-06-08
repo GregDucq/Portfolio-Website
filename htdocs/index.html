@@ -8,8 +8,7 @@
 
 <script type = "text/javascript">
 	var answer_posted = false
-	var expression_node = null
-	var answer_node = null
+	var prev_answer = null
 	var total_entered = 0
 	
 	function changeFocus(state){
@@ -54,13 +53,11 @@
 			var entries = document.getElementById("entries")
 			
 			if(entries.innerText.length != 0){
-				entries.appendChild(document.createElement("br"))
-				entries.appendChild(document.createElement("br"))
+				entries.innerHTML += "<br/><br/>"
 			}
+			entries.innerHTML += prev_answer
 			
-			entries.appendChild(expression_node)
-			entries.appendChild(document.createElement("br"))
-			entries.appendChild(answer_node)
+			prev_answer = ""
 			text_field.value = ""
 			
 			answer_posted = false
@@ -197,8 +194,7 @@
 		
 		else{
 			text_field.value = answer_stack[0]
-			expression_node = document.createTextNode(infix_temp + " =");
-			answer_node = document.createTextNode(answer_stack[0]);
+			prev_answer = infix_temp + " =<br/>" + answer_stack[0];
 
 			answer_posted = true
 		}
@@ -212,15 +208,13 @@
 			var entries = document.getElementById("entries")
 			
 			if(entries.innerText.length != 0){
-				entries.appendChild(document.createElement("br"))
-				entries.appendChild(document.createElement("br"))
+				entries.innerHTML += "<br/><br/>"
 			}
 			
-			entries.appendChild(expression_node)
-			entries.appendChild(document.createElement("br"))
-			entries.appendChild(answer_node)
+			entries.innerHTML += prev_answer
 			
-			children_text = entries.innerText
+			prev_answer = ""
+			text_field.value = ""
 			
 			answer_posted = false
 		}
