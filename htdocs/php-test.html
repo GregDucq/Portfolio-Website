@@ -34,36 +34,14 @@
                      ajaxDisplay.innerHTML = ajaxRequest.responseText;
                   }
                }
-               
-               // Now get the value from user and pass it to
-               // server script.
-					
-               var age = document.getElementById('age').value;
-               var wpm = document.getElementById('wpm').value;
-               var sex = document.getElementById('sex').value;
-               var queryString = "?age=" + age ;
-            
-               queryString +=  "&wpm=" + wpm + "&sex=" + sex;
-               ajaxRequest.open("GET", "ajax-example.php" + queryString, true);
+ 
+               ajaxRequest.open("GET", "ajax-example.php", true);
                ajaxRequest.send(null); 
             }
          //-->
       </script>
-		
-      <form name = 'myForm'>
-         Max Age: <input type = 'text' id = 'age' /> <br />
-         Max WPM: <input type = 'text' id = 'wpm' />
-         <br />
-         
-         Sex: <select id = 'sex'>
-            <option value = "m">m</option>
-            <option value = "f">f</option>
-         </select>
 			
-         <input type = 'button' onclick = 'ajaxFunction()' value = 'Query MySQL'/>
-			
-      </form>
-      
+      <input type = 'button' onclick = 'ajaxFunction()' value = 'Query MySQL'/>     
       <div id = 'ajaxDiv'>Your result will display here</div>
    </body>
 </html>
