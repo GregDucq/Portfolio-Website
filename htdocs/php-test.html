@@ -6,36 +6,73 @@
 <link rel="stylesheet" href="/css/stylesheet.css">
 
 <script type = "text/javascript">
-
-	function runPHP(){
 	
+	var xmlManager = new XMLHttpRequest()
+
+	function enterIntoDB(){	
 		var name = document.getElementById("name-section").value
 		var id = document.getElementById("id-section").value
-		var ajaxObject = new XMLHttpRequest()
 
-		//ajaxObject.responseType = 'text'
+		//xmlManager.responseType = 'text'
 		
-		ajaxObject.onreadystatechange = function updateSection(){
-			if(ajaxObject.readyState == 4){
+		xmlManager.onreadystatechange = function updateSection(){
+			if(xmlManager.readyState == 4){
 				var outputSection = document.getElementById("php-output")
-				outputSection.innerHTML = ajaxObject.responseText
+				outputSection.innerHTML = xmlManager.responseText
 			}
 		}
 		
-		var encodedURL = encodeURI("ajax-example.php?name="+name+"&id="+id)
-		ajaxObject.open("GET", encodedURL)
-		ajaxObject.send(null)
+		var encodedURL = encodeURI("ajax-example.php?event=add&name="+name+"&id="+id)
+		xmlManager.open("GET", encodedURL)
+		xmlManager.send(null)
+	}
+	
+	function displayDB(){
+		xmlManager.onreadystatechange = function updateSection(){
+			if(xmlManager.readyState == 4){
+				var outputSection = document.getElementById("php-output")
+				outputSection.innerHTML = xmlManager.responseText
+			}
+		}
+		
+		var encodedURL = encodeURI("ajax-example.php?event=display")
+		xmlManager.open("GET", encodedURL)
+		xmlManager.send(null)
+	}
+	
+	function clearDB(){
+		//xmlManager.responseType = 'text'
+		
+		xmlManager.onreadystatechange = function updateSection(){
+			if(xmlManager.readyState == 4){
+				var outputSection = document.getElementById("php-output")
+				outputSection.innerHTML = xmlManager.responseText
+			}
+		}
+		
+		var encodedURL = encodeURI("ajax-example.php?event=clear")
+		xmlManager.open("GET", encodedURL)
+		xmlManager.send(null)
 	}
 	
 </script>
 </head>
 <body>
-	</p>Enter Name:</p>
-	<input id="name-section" type="text">
-	</p>Enter ID:</p>
-	<input id="id-section" type="text">
-	<br/>
-	<input type="button" value="Enter Values" onclick="runPHP()">
-	<p id="php-output"></p>
+	<div class="ajax-input-section">
+		</p>Enter Name:</p>
+		<input id="name-section" type="text">
+		</p>Enter ID:</p>
+		<input id="id-section" type="text">
+	</div>
+	
+	<div class="ajax-button-section">
+		<input type="button" value="Enter Values" onclick="enterIntoDB()">
+		<input type="button" value="Display Entered Values" onclick="displayDB()">
+		<input type="button" value="Clear Database" onclick="clearDB()">
+	</div>
+	
+	<div class="ajax-output-section">
+		<p id="php-output"></p>
+	</div>
 </body>
 </html>
