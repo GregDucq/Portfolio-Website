@@ -5,11 +5,13 @@
 <link rel="icon" href="/favicon.ico">
 <link rel="stylesheet" href="/css/stylesheet.css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type = "text/javascript">
 	
 	var xmlManager = new XMLHttpRequest()
 
-	function enterIntoDB(){	
+	function enterIntoDB(){
+		/*
 		var name = document.getElementById("name-section").value
 		var id = document.getElementById("id-section").value
 
@@ -22,42 +24,57 @@
 			}
 		}
 		
-		var encodedURL = encodeURI("ajax-example.php?event=add&name="+name+"&id="+id)
+		var encodedURL = encodeURI("php/ajax-example.php?event=add&name="+name+"&id="+id)
 		xmlManager.open("GET", encodedURL)
 		xmlManager.send(null)
+		*/
+		var name = document.getElementById("name-section").value
+		var id = document.getElementById("id-section").value
+		
+		$.ajax(
+		  "php/ajax-example.php?event=add&name="+name+"&id="+id,
+		  {
+			  success: function(data) {
+				var outputSection = document.getElementById("php-output")
+				outputSection.innerHTML = data;
+			  },
+		   }
+		);
 	}
 	
 	function displayDB(){
-		xmlManager.onreadystatechange = function updateSection(){
-			if(xmlManager.readyState == 4){
+		$.ajax(
+		  'php/ajax-example.php?event=display',
+		  {
+			  success: function(data) {
 				var outputSection = document.getElementById("php-output")
-				outputSection.innerHTML = xmlManager.responseText
-			}
-		}
-		
-		var encodedURL = encodeURI("ajax-example.php?event=display")
-		xmlManager.open("GET", encodedURL)
-		xmlManager.send(null)
+				outputSection.innerHTML = data;
+			  },
+		   }
+		);
 	}
 	
 	function clearDB(){
-		//xmlManager.responseType = 'text'
-		
-		xmlManager.onreadystatechange = function updateSection(){
-			if(xmlManager.readyState == 4){
+		$.ajax(
+		  'php/ajax-example.php?event=clear',
+		  {
+			  success: function(data) {
 				var outputSection = document.getElementById("php-output")
-				outputSection.innerHTML = xmlManager.responseText
-			}
-		}
-		
-		var encodedURL = encodeURI("ajax-example.php?event=clear")
-		xmlManager.open("GET", encodedURL)
-		xmlManager.send(null)
+				outputSection.innerHTML = data;
+			  },
+		   }
+		);
 	}
 	
 </script>
 </head>
 <body>
+
+	<ul>
+		<li><a href="calculator.html">Expression Calculator</a></li>
+		<li><a href="php-test.html">AJAX Test</a></li>
+		<li><a href="jquery-test.html">JQueryAJAX Test</a></li>
+	</ul>
 	<div class="ajax-input-section">
 		</p>Enter Name:</p>
 		<input id="name-section" type="text">
