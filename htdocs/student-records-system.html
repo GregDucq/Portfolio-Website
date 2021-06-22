@@ -1,0 +1,133 @@
+<!doctype HTML>
+	<html>
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<title>College Records Database (JS/Angular/SQL)</title>
+			<link rel="stylesheet" href="/css/stylesheet.css">
+			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+						
+			<script type="text/javascript">	
+			</script>
+		</head>
+		<body>
+			<div ng-app="mainApp" ng-controller="studentInfoController">
+				<div style="text-align:right; margin: 0 32em 0 0;">
+					<p>Student ID: <input type="text" ng-model="studentInfo.studentID"/></p>
+					<p>First Name: <input type="text" ng-model="studentInfo.firstName"/></p>
+					<p>Last Name: <input type="text" ng-model="studentInfo.lastName"/></p>
+					<p>Address: <input type="text" ng-model="studentInfo.address"/></p>
+					<p>City: <input type="text" ng-model="studentInfo.city"/></p>
+					<p>State/Province: <input type="text" ng-model="studentInfo.state"/></p>
+					<p>Country: <input type="text" ng-model="studentInfo.country"/></p>
+					<p>Phone Number: <input type="text" ng-model="studentInfo.phone"/></p>
+					<p>Email: <input type="text" ng-model="studentInfo.email"/></p>
+					<input type="button" value="Submit Data" ng-click="submitData()"/>
+					<input type="button" value="Display Data" ng-click="retrieveData()"/>
+					<input type="button" value="Delete Data" ng-click="deleteData()"/>
+					<p ng-bind="result"></p>
+				</div>								
+					<table>
+						<tr>
+							<th>StudentID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Address</th>
+							<th>City</th>
+							<th>State/Province</th>
+							<th>Country</th>
+							<th>Phone Number:</th>
+							<th>Email Address</th>
+						</tr>
+						<tr ng-repeat="student in result_table">
+							<td>{{student.studentID}}</td>
+							<td>{{student.firstName}}</td>
+							<td>{{student.lastName}}</td>
+							<td>{{student.address}}</td>
+							<td>{{student.city}}</td>
+							<td>{{student.state}}</td>
+							<td>{{student.country}}</td>
+							<td>{{student.phone}}</td>
+							<td>{{student.email}}</td>
+						</tr>
+					</table>
+			</div>
+			
+			<script>
+				var mainApp = angular.module("mainApp", []);
+				mainApp.controller('studentInfoController', function($scope, $http){
+					$scope.studentInfo = {
+						studentID: "",
+						firstName: "",
+						lastName: "",
+						address: "",
+						city: "",
+						state: "",
+						country: "",
+						phone: "",
+						email: ""						
+					};
+					
+					$scope.result = "";
+					$scope.result_table = "";
+					
+					$scope.submitData = function(){
+						var studentInfo = $scope.studentInfo;
+						
+						var data = {
+							command: 0,
+							studentID: studentInfo.studentID,
+							firstName: studentInfo.firstName,
+							lastName: studentInfo.lastName,
+							address: studentInfo.address,
+							city: studentInfo.city,
+							state: studentInfo.state,
+							country: studentInfo.country,
+							phone: studentInfo.phone,
+							email: studentInfo.email	
+						}
+						
+						$http.post("php/student-info-access.php",data)
+						.success(function(response) {
+							$scope.result = response;
+						});
+					};
+					
+					
+					$scope.retrieveData = function(){
+						var studentInfo = $scope.studentInfo;
+						var data = {
+							command: 1,
+							studentID: studentInfo.studentID,
+							firstName: studentInfo.firstName,
+							lastName: studentInfo.lastName,
+							address: studentInfo.address,
+							city: studentInfo.city,
+							state: studentInfo.state,
+							country: studentInfo.country,
+							phone: studentInfo.phone,
+							email: studentInfo.email	
+						}
+						
+						$http.post("php/student-info-access.php",data)
+						.success(function(response) {
+							$scope.result_table = response;
+						});
+					};
+					
+					$scope.deleteData = function(){
+						var studentInfo = $scope.studentInfo;
+						
+						var data = {
+							command: 2,
+							studentID: studentInfo.studentID,	
+						}
+						
+						$http.post("php/student-info-access.php",data)
+						.success(function(response) {
+							$scope.result = response;
+						});
+					};
+				});
+			</script>
+		</body>
+	</html>
