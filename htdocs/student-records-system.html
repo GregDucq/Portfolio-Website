@@ -5,7 +5,7 @@
 			<title>College Records Database (JS/Angular/SQL)</title>
 			<link rel="stylesheet" href="/css/stylesheet.css">
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-						
+			<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>						
 			<script type="text/javascript">	
 			</script>
 		</head>
@@ -21,40 +21,97 @@
 					<p>Country: <input type="text" ng-model="studentInfo.country"/></p>
 					<p>Phone Number: <input type="text" ng-model="studentInfo.phone"/></p>
 					<p>Email: <input type="text" ng-model="studentInfo.email"/></p>
-					<input type="button" value="Submit Data" ng-click="submitData()"/>
-					<input type="button" value="Display Data" ng-click="retrieveData()"/>
-					<input type="button" value="Delete Data" ng-click="deleteData()"/>
-					<p ng-bind="result"></p>
-				</div>								
-					<table>
-						<tr>
-							<th>StudentID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Address</th>
-							<th>City</th>
-							<th>State/Province</th>
-							<th>Country</th>
-							<th>Phone Number:</th>
-							<th>Email Address</th>
-						</tr>
-						<tr ng-repeat="student in result_table">
-							<td>{{student.studentID}}</td>
-							<td>{{student.firstName}}</td>
-							<td>{{student.lastName}}</td>
-							<td>{{student.address}}</td>
-							<td>{{student.city}}</td>
-							<td>{{student.state}}</td>
-							<td>{{student.country}}</td>
-							<td>{{student.phone}}</td>
-							<td>{{student.email}}</td>
-						</tr>
-					</table>
+					<input type="button" value="Submit Data" onclick="location.href='#hideStudentInfo'" ng-click="submitData()"/>
+					<input type="button" value="Display Data" onclick="location.href='#displayStudentInfo'" ng-click="retrieveData()"/>
+					<input type="button" value="Delete Data" onclick="location.href='#confirmDeleteInfo'" ng-click="retrieveData()"/>
+					<input type="button" value="Clear Input" ng-click="clearInput(0, 'Input Cleared.')"/>
+					
+					<div ng-view></div>
+					<script type="text/ng-template" id="hideStudentInfo.htm">
+						<p>{{result}}</p>
+					</script>
+					<script type="text/ng-template" id="displayStudentInfo.htm">
+						<p>{{result}}</p>
+						<table>
+							<tr>
+								<th>StudentID</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Address</th>
+								<th>City</th>
+								<th>State/Province</th>
+								<th>Country</th>
+								<th>Phone Number:</th>
+								<th>Email Address</th>
+							</tr>
+							<tr ng-repeat="student in result_table">
+								<td>{{student.studentID}}</td>
+								<td>{{student.firstName}}</td>
+								<td>{{student.lastName}}</td>
+								<td>{{student.address}}</td>
+								<td>{{student.city}}</td>
+								<td>{{student.state}}</td>
+								<td>{{student.country}}</td>
+								<td>{{student.phone}}</td>
+								<td>{{student.email}}</td>
+							</tr>
+						</table>
+					</script>
+					
+					<script type="text/ng-template" id="confirmDeleteInfo.htm">
+						<!--<p>The following entries will be deleted. Would you like to continue? WARNING: Student data will also be deleted from other records!</p>-->
+						<table>
+							<tr>
+								<th>StudentID</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Address</th>
+								<th>City</th>
+								<th>State/Province</th>
+								<th>Country</th>
+								<th>Phone Number:</th>
+								<th>Email Address</th>
+							</tr>
+							<tr ng-repeat="student in result_table">
+								<td>{{student.studentID}}</td>
+								<td>{{student.firstName}}</td>
+								<td>{{student.lastName}}</td>
+								<td>{{student.address}}</td>
+								<td>{{student.city}}</td>
+								<td>{{student.state}}</td>
+								<td>{{student.country}}</td>
+								<td>{{student.phone}}</td>
+								<td>{{student.email}}</td>
+							</tr>
+						</table>
+						<input type="button" value="Confirm" ng-click="deleteData()"/>
+						<input type="button" value="Cancel" ng-click="clearInput(1, 'Deletion Cancelled.')"/>
+					</script>	
+					
+				</div>
 			</div>
 			
 			<script>
-				var mainApp = angular.module("mainApp", []);
-				mainApp.controller('studentInfoController', function($scope, $http){
+				var mainApp = angular.module("mainApp", ['ngRoute']);
+				
+				mainApp.config(['$routeProvider', function($routeProvider) {
+					$routeProvider
+					
+					.when('/displayStudentInfo', {
+						templateUrl: 'displayStudentInfo.htm',
+					})
+					.when('/hideStudentInfo', {
+						templateUrl: 'hideStudentInfo.htm',
+					})
+					.when('/confirmDeleteInfo', {
+						templateUrl: 'confirmDeleteInfo.htm',
+					})
+					.otherwise({
+						redirectTo: '/'
+					});
+				}]);
+				
+				mainApp.controller('studentInfoController', function($scope, $window, $http){
 					$scope.studentInfo = {
 						studentID: "",
 						firstName: "",
@@ -110,6 +167,7 @@
 						
 						$http.post("php/student-info-access.php",data)
 						.success(function(response) {
+							$scope.result = "Data Retrieved: ";
 							$scope.result_table = response;
 						});
 					};
@@ -119,13 +177,41 @@
 						
 						var data = {
 							command: 2,
-							studentID: studentInfo.studentID,	
+							studentID: studentInfo.studentID,
+							firstName: studentInfo.firstName,
+							lastName: studentInfo.lastName,
+							address: studentInfo.address,
+							city: studentInfo.city,
+							state: studentInfo.state,
+							country: studentInfo.country,
+							phone: studentInfo.phone,
+							email: studentInfo.email
 						}
 						
 						$http.post("php/student-info-access.php",data)
 						.success(function(response) {
 							$scope.result = response;
 						});
+						
+						$window.location.href = '#hideStudentInfo';
+					};
+					
+					$scope.clearInput = function(reason, message){
+						$scope.studentInfo.studentID = "";
+						$scope.studentInfo.firstName = "";
+						$scope.studentInfo.lastName = "";
+						$scope.studentInfo.address = "";
+						$scope.studentInfo.city = "";
+						$scope.studentInfo.state = "";
+						$scope.studentInfo.country = "";
+						$scope.studentInfo.phone = "";
+						$scope.studentInfo.email = "";
+						
+						$scope.result = message;
+						
+						if(reason == 1){
+							$window.location.href='#hideStudentInfo'
+						}
 					};
 				});
 			</script>
