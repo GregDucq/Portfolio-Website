@@ -133,7 +133,7 @@
 						$http.post("php/student-info-access.php",data)
 						.success(function(response) {
 							$scope.result = response;
-							document.getElementById('simple-report').style.display = 'flex';
+							document.getElementById('simple-report').style.display = 'inline';
 						});
 					};
 							
@@ -162,12 +162,12 @@
 							
 							if(reason == 0){
 								$scope.result = "Data Retrieved: ";
-								document.getElementById('search-report').style.display = 'flex';
+								document.getElementById('search-report').style.display = 'inline';
 							}
 							
 							else if (reason == 1){
 								$scope.result = "The following entries will be deleted. Would you like to continue? WARNING: Student data will also be deleted from other records!";
-								document.getElementById('delete-report').style.display = 'flex';
+								document.getElementById('delete-report').style.display = 'inline';
 							}
 						});
 					};
@@ -195,7 +195,7 @@
 						$http.post("php/student-info-access.php",data)
 						.success(function(response) {
 							$scope.result = response;
-							document.getElementById('simple-report').style.display = 'flex';
+							document.getElementById('simple-report').style.display = 'inline';
 						});
 						
 						$window.location.href = '#hideStudentInfo';
@@ -218,7 +218,7 @@
 						
 						$scope.result = message;
 						
-						document.getElementById('simple-report').style.display = 'flex';
+						document.getElementById('simple-report').style.display = 'inline';
 					};
 				});
 			</script>
