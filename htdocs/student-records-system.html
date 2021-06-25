@@ -25,6 +25,7 @@
 						<input class="student-input" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input"/>
 						<input class="student-input" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
 						<input class="student-input" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
+						<input class="student-input" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input"/>
 						<input class="student-input" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
 					</div>
 					
@@ -161,18 +162,25 @@
 						
 						$http.post("php/student-info-access.php",data)
 						.success(function(response) {
-							$scope.result_table = response;
-							
-							if(reason == 0){
-								$scope.result = "Data Retrieved: ";
-								document.getElementById('search-report').style.display = 'inline';
-							}
-							
-							else if (reason == 1){
-								$scope.result = "The following entries will be deleted. Would you like to continue? WARNING: Student data will also be deleted from other records!";
-								$scope.block_input = true;
+							if(response.length == 0){
+								$scope.result = "No student data was retrieved with the given search requirements.";
+								document.getElementById('simple-report').style.display = 'inline';
+							}	
+						
+							else{
+								$scope.result_table = response;
 								
-								document.getElementById('delete-report').style.display = 'inline';
+								if(reason == 0){
+									$scope.result = "Data Retrieved: ";
+									document.getElementById('search-report').style.display = 'inline';
+								}
+								
+								else if (reason == 1){
+									$scope.result = "The following entries will be deleted. Would you like to continue? WARNING: Student data will also be deleted from other records!";
+									$scope.block_input = true;
+									
+									document.getElementById('delete-report').style.display = 'inline';
+								}
 							}
 						});
 					};
@@ -201,6 +209,33 @@
 						.success(function(response) {
 							$scope.result = response;
 							$scope.block_input = false;
+							document.getElementById('simple-report').style.display = 'inline';
+						});
+					};
+					
+					$scope.updateData = function(){
+						document.getElementById('simple-report').style.display = 'none';
+						document.getElementById('search-report').style.display = 'none';
+						document.getElementById('delete-report').style.display = 'none';
+					
+						var studentInfo = $scope.studentInfo;
+						
+						var data = {
+							command: 3,
+							studentID: studentInfo.studentID,
+							firstName: studentInfo.firstName,
+							lastName: studentInfo.lastName,
+							address: studentInfo.address,
+							city: studentInfo.city,
+							state: studentInfo.state,
+							country: studentInfo.country,
+							phone: studentInfo.phone,
+							email: studentInfo.email	
+						}
+						
+						$http.post("php/student-info-access.php",data)
+						.success(function(response) {
+							$scope.result = response;
 							document.getElementById('simple-report').style.display = 'inline';
 						});
 					};

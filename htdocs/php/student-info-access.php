@@ -26,14 +26,6 @@
 		else{
 			echo "Failed to enter student";
 		}
-		
-		if(empty($request->firstName)){
-			echo "NO FIRST NAME GIVEN!";
-		}
-		
-		else{
-			echo "FIRST NAME FOUND";
-		}
 	}
 	
 	elseif($request->command == 1){
@@ -45,44 +37,76 @@
 		}
 		
 		if(!empty($request->firstName)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" firstName='" . $request->firstName . "'");
 		}
 		
 		if(!empty($request->lastName)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" lastName='" . $request->lastName . "'");
 		}
 		
 		if(!empty($request->address)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" address='" . $request->address . "'");
 		}
 		
 		if(!empty($request->city)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" city='" . $request->city . "'");
 		}
 		
 		if(!empty($request->state)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" state='" . $request->state . "'");
 		}
 		
 		if(!empty($request->country)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" country='" . $request->country . "'");
 		}
 		
 		if(!empty($request->phone)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" phone='" . $request->phone . "'");
 		}
 		
 		if(!empty($request->email)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" email='" . $request->email . "'");
 		}
 		
 		// Construct query based on what conditions are given
 		$query = "select * from studentInfo";
 		if(!empty($conditions)){
-			$query .= " where" . $conditions;
+			$query .= (" where" . $conditions);
 		}
 		$query .= ";";
-		
+
 		$res = $db->query($query);
 		$json_result = array();
 		while($row = $res->fetchArray(SQLITE3_ASSOC)){
@@ -91,11 +115,10 @@
 		}
 		
 		echo json_encode($json_result);
-		//echo $query;
 	}
 	
 	elseif($request->command == 2){
-				$conditions = "";
+		$conditions = "";
 		
 		// Check for specific values to pull up.
 		if(!empty($request->studentID)){
@@ -103,34 +126,66 @@
 		}
 		
 		if(!empty($request->firstName)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" firstName='" . $request->firstName . "'");
 		}
 		
 		if(!empty($request->lastName)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" lastName='" . $request->lastName . "'");
 		}
 		
 		if(!empty($request->address)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" address='" . $request->address . "'");
 		}
 		
 		if(!empty($request->city)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" city='" . $request->city . "'");
 		}
 		
 		if(!empty($request->state)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" state='" . $request->state . "'");
 		}
 		
 		if(!empty($request->country)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" country='" . $request->country . "'");
 		}
 		
 		if(!empty($request->phone)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" phone='" . $request->phone . "'");
 		}
 		
 		if(!empty($request->email)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
 			$conditions .= (" email='" . $request->email . "'");
 		}
 		
@@ -141,8 +196,86 @@
 		}
 		$query .= ";";
 		
-		$db->query($query);
+		$db->exec($query);
 		
 		echo "Student info from student records.";
+	}
+	
+	elseif($request->command == 3){
+		$conditions = "";
+		
+		if(!empty($request->firstName)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" firstName='" . $request->firstName . "'");
+		}
+		
+		if(!empty($request->lastName)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" lastName='" . $request->lastName . "'");
+		}
+		
+		if(!empty($request->address)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" address='" . $request->address . "'");
+		}
+		
+		if(!empty($request->city)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" city='" . $request->city . "'");
+		}
+		
+		if(!empty($request->state)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" state='" . $request->state . "'");
+		}
+		
+		if(!empty($request->country)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" country='" . $request->country . "'");
+		}
+		
+		if(!empty($request->phone)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" phone='" . $request->phone . "'");
+		}
+		
+		if(!empty($request->email)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" email='" . $request->email . "'");
+		}
+		
+		if(empty($conditions)){
+			echo "No information given to update. Student data not updated.";
+		}
+		
+		else{
+			$query = "update studentInfo set" . $conditions . " where studentID='" . $request->studentID . "';";
+			$db->exec($query);
+			echo "Student records updated.";
+		}
 	}
 ?>
