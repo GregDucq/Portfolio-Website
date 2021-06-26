@@ -204,9 +204,10 @@
 	elseif($request->command == 3){
 		$conditions = "";
 		
+		
 		if(!empty($request->firstName)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" firstName='" . $request->firstName . "'");
@@ -214,7 +215,7 @@
 		
 		if(!empty($request->lastName)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" lastName='" . $request->lastName . "'");
@@ -222,7 +223,7 @@
 		
 		if(!empty($request->address)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" address='" . $request->address . "'");
@@ -230,7 +231,7 @@
 		
 		if(!empty($request->city)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" city='" . $request->city . "'");
@@ -238,7 +239,7 @@
 		
 		if(!empty($request->state)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" state='" . $request->state . "'");
@@ -246,7 +247,7 @@
 		
 		if(!empty($request->country)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" country='" . $request->country . "'");
@@ -254,7 +255,7 @@
 		
 		if(!empty($request->phone)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" phone='" . $request->phone . "'");
@@ -262,7 +263,7 @@
 		
 		if(!empty($request->email)){
 			if(!empty($conditions)){
-				$conditions .= " and";
+				$conditions .= ", ";
 			}
 			
 			$conditions .= (" email='" . $request->email . "'");
@@ -275,7 +276,7 @@
 		else{
 			$query = "update studentInfo set" . $conditions . " where studentID='" . $request->studentID . "';";
 			$db->exec($query);
-			echo "Student records updated.";
+			echo "Student records updated with query: " . $query;
 		}
 	}
 ?>
