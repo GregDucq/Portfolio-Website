@@ -276,7 +276,14 @@
 		else{
 			$query = "update studentInfo set" . $conditions . " where studentID='" . $request->studentID . "';";
 			$db->exec($query);
-			echo "Student records updated with query: " . $query;
+			
+			if($db->changes()){
+				echo "Student records updated.";
+			}
+			
+			else{
+				echo "Student with the given student ID was not found. No information updated.";
+			}
 		}
 	}
 ?>

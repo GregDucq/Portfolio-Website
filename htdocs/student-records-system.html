@@ -5,7 +5,7 @@
 			<title>College Records Database (JS/Angular/SQL)</title>
 			<link rel="stylesheet" href="/css/stylesheet.css">
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-			<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>						
+			<!--<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>	-->					
 			<script type="text/javascript">	
 			</script>
 		</head>
@@ -13,20 +13,22 @@
 			<div ng-app="mainApp" ng-controller="studentInfoController">
 				<div style="text-align:right; margin: 0 32em 0 0;">
 					<div id="student-records-inputs">
-						<p>Student ID: <input class="student-input" type="text" ng-model="studentInfo.studentID" ng-disabled="block_input"/></p>
-						<p>First Name: <input class="student-input" type="text" ng-model="studentInfo.firstName" ng-disabled="block_input"/></p>
-						<p>Last Name: <input class="student-input" type="text" ng-model="studentInfo.lastName" ng-disabled="block_input"/></p>
-						<p>Address: <input class="student-input" type="text" ng-model="studentInfo.address" ng-disabled="block_input"/></p>
-						<p>City: <input class="student-input" type="text" ng-model="studentInfo.city" ng-disabled="block_input"/></p>
-						<p>State/Province: <input class="student-input" type="text" ng-model="studentInfo.state" ng-disabled="block_input"/></p>
-						<p>Country: <input class="student-input" type="text" ng-model="studentInfo.country" ng-disabled="block_input"/></p>
-						<p>Phone Number: <input class="student-input" type="text" ng-model="studentInfo.phone" ng-disabled="block_input"/></p>
-						<p>Email: <input class="student-input" type="text" ng-model="studentInfo.email" ng-disabled="block_input"/></p>
-						<input class="student-input" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input"/>
-						<input class="student-input" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
-						<input class="student-input" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
-						<input class="student-input" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input"/>
-						<input class="student-input" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
+						<form name="form">
+							<p>Student ID: <input required class="student-input" name="studentID" type="text" ng-model="studentInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/></p>
+							<p>First Name: <input required class="student-input" name="firstName" type="text" ng-model="studentInfo.firstName" ng-disabled="block_input" ng-pattern="/^[A-Za-z]+$/" /></p>
+							<p>Last Name: <input required class="student-input" name="lastName" type="text" ng-model="studentInfo.lastName" ng-disabled="block_input" ng-pattern="/^[A-Za-z]+$/" /></p>
+							<p>Address: <input required class="student-input" name="address" type="text" ng-model="studentInfo.address" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
+							<p>City: <input required class="student-input" name="city" type="text" ng-model="studentInfo.city" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
+							<p>State/Province: <input required class="student-input" name="state" type="text" ng-model="studentInfo.state" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
+							<p>Country: <input required class="student-input" name="country" type="text" ng-model="studentInfo.country" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
+							<p>Phone Number: <input required class="student-input" name="phone" type="text" ng-model="studentInfo.phone" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
+							<p>Email: <input required class="student-input" name="email" type="text" ng-model="studentInfo.email" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
+							<input class="student-input" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput()"/>
+							<input class="student-input" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
+							<input class="student-input" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
+							<input class="student-input" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.studentID.$invalid"/>
+							<input class="student-input" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
+						</form>
 					</div>
 					
 					<div id="simple-report" style="display:none;">
@@ -98,6 +100,7 @@
 				var mainApp = angular.module("mainApp", []);
 				
 				mainApp.controller('studentInfoController', function($scope, $http){
+				
 					$scope.studentInfo = {
 						studentID: "",
 						firstName: "",
@@ -113,6 +116,8 @@
 					$scope.result = "";
 					$scope.result_table = "";
 					$scope.block_input = false;					
+					
+					$scope.temp = '\d{8}'
 					
 					$scope.submitData = function(){
 						document.getElementById('simple-report').style.display = 'none';
@@ -260,6 +265,18 @@
 						
 						document.getElementById('simple-report').style.display = 'inline';
 					};
+					
+					$scope.missingInput = function(){
+						return ($scope.form.studentID.$invalid ||
+								$scope.form.firstName.$invalid ||
+								$scope.form.lastName.$invalid ||
+								$scope.form.address.$invalid ||
+								$scope.form.city.$invalid ||
+								$scope.form.state.$invalid ||
+								$scope.form.country.$invalid ||
+								$scope.form.phone.$invalid ||
+								$scope.form.email.$invalid);
+					}
 				});
 			</script>
 		</body>
