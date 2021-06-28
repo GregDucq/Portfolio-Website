@@ -12,6 +12,7 @@
 		<body>
 			<div ng-app="mainApp" ng-controller="studentInfoController">
 				<div style="text-align:right; margin: 0 32em 0 0;">
+					<!--The main student form -->
 					<div id="student-records-inputs">
 						<form name="form">
 							<p>Student ID: <input class="student-input" name="studentID" type="text" placeholder="00000000" ng-model="studentInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/></p>
@@ -31,10 +32,19 @@
 						</form>
 					</div>
 					
+					<!-- This section will list any erroneous inputs the user may have entered -->
+					<div id="error-list">
+						<p>The following field(s) have invalid input. They will be ignored when submitting, updating, and deleting student info.</p>
+					</div>
+					
+					<!-- These three sections report the server's output -->
+					
+					<!-- Basic text output confirming that an action occurred -->
 					<div id="simple-report" style="display:none;">
 						<p>{{result}}</p>
 					</div>
 					
+					<!-- Displays the results of looking up a student -->
 					<div id="search-report" style="display:none;">
 						<p>{{result}}</p>
 						<table>
@@ -61,38 +71,11 @@
 								<td>{{student.email}}</td>
 							</tr>
 						</table>
+						<div ng-show="block_input">
+							<input type="button" value="Confirm" ng-click="deleteData()"/>
+							<input type="button" value="Cancel" ng-click="clearInput('Deletion Cancelled.')"/>
+						<div>
 					</div>
-					
-					<div id="delete-report" style="display:none;">
-						<p>{{result}}</p>
-						<table>
-							<tr>
-								<th>StudentID</th>
-								<th>First Name</th>
-								<th>Last Name</th>
-								<th>Address</th>
-								<th>City</th>
-								<th>State/Province</th>
-								<th>Country</th>
-								<th>Phone Number:</th>
-								<th>Email Address</th>
-							</tr>
-							<tr ng-repeat="student in result_table">
-								<td>{{student.studentID}}</td>
-								<td>{{student.firstName}}</td>
-								<td>{{student.lastName}}</td>
-								<td>{{student.address}}</td>
-								<td>{{student.city}}</td>
-								<td>{{student.state}}</td>
-								<td>{{student.country}}</td>
-								<td>{{student.phone}}</td>
-								<td>{{student.email}}</td>
-							</tr>
-						</table>
-						<input type="button" value="Confirm" ng-click="deleteData()"/>
-						<input type="button" value="Cancel" ng-click="clearInput('Deletion Cancelled.')"/>
-					</div>	
-					
 				</div>
 			</div>
 			
@@ -187,7 +170,7 @@
 									$scope.result = "The following entries will be deleted. Would you like to continue? WARNING: Student data will also be deleted from other records!";
 									$scope.block_input = true;
 									
-									document.getElementById('delete-report').style.display = 'inline';
+									document.getElementById('search-report').style.display = 'inline';
 								}
 							}
 						});
