@@ -21,8 +21,8 @@
 							<p>City: <input required class="student-input" name="city" type="text" ng-model="studentInfo.city" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
 							<p>State/Province: <input required class="student-input" name="state" type="text" ng-model="studentInfo.state" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
 							<p>Country: <input required class="student-input" name="country" type="text" ng-model="studentInfo.country" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
-							<p>Phone Number: <input required class="student-input" name="phone" type="text" ng-model="studentInfo.phone" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
-							<p>Email: <input required class="student-input" name="email" type="text" ng-model="studentInfo.email" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
+							<p>Phone Number: <input required class="student-input" name="phone" type="text" ng-model="studentInfo.phone" ng-disabled="block_input" ng-pattern="/^((\d{9})|(\d{3}\-\d{2}\-\d{4}))$/" /></p>
+							<p>Email: <input required class="student-input" name="email" type="email" ng-model="studentInfo.email" ng-disabled="block_input"/></p>
 							<input class="student-input" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput()"/>
 							<input class="student-input" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
 							<input class="student-input" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
@@ -267,7 +267,7 @@
 					};
 					
 					$scope.missingInput = function(){
-						return ($scope.form.studentID.$invalid ||
+						/*return ($scope.form.studentID.$invalid ||
 								$scope.form.firstName.$invalid ||
 								$scope.form.lastName.$invalid ||
 								$scope.form.address.$invalid ||
@@ -276,6 +276,10 @@
 								$scope.form.country.$invalid ||
 								$scope.form.phone.$invalid ||
 								$scope.form.email.$invalid);
+								
+								*/
+								
+						return $scope.form.phone.$invalid;
 					}
 				});
 			</script>
