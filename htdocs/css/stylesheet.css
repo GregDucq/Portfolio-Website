@@ -137,3 +137,52 @@ table, th , td {
 	border-collapse: collapse;
 	padding: 5px;
 }
+
+#student-records-inputs{
+	width: 600px;
+}
+
+#text-input-section{
+	padding: 10px;
+	border: solid 5px blue;
+	overflow:hidden;
+}
+
+#text-input-section .input-field input{
+	length
+}
+
+.input-field, .input-warning{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#input-fields{
+	float:left;
+	text-align:right;
+}
+
+.input-field{
+	margin: 10px 0;
+}
+
+#input-warnings{
+	float:left;
+}
+
+.input-warning{
+	color:red;
+	line-height:22px;
+	height:22px;
+	margin-left: 15px;
+}
+
+.error-message{
+	clear:both;
+	color:red;
+}
+
+#input-buttons{
+	clear:both;
+}
+

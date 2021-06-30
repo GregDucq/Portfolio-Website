@@ -11,33 +11,79 @@
 		</head>
 		<body>
 			<div ng-app="mainApp" ng-controller="studentInfoController">
-				<div style="text-align:right; margin: 0 32em 0 0;">
+				<div style="margin: 0 20em 0 0;">
 					<!--The main student form -->
 					<div id="student-records-inputs">
 						<form name="form">
-							<p>Student ID: <input class="student-input" name="studentID" type="text" placeholder="00000000" ng-model="studentInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/></p>
-							<p>First Name: <input class="student-input" name="firstName" type="text" ng-model="studentInfo.firstName" ng-disabled="block_input" ng-pattern="/^[A-Za-z]+$/" /></p>
-							<p>Last Name: <input class="student-input" name="lastName" type="text" ng-model="studentInfo.lastName" ng-disabled="block_input" ng-pattern="/^[A-Za-z]+$/" /></p>
-							<p>Address: <input class="student-input" name="address" type="text" ng-model="studentInfo.address" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
-							<p>City: <input class="student-input" name="city" type="text" ng-model="studentInfo.city" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
-							<p>State/Province: <input class="student-input" name="state" type="text" ng-model="studentInfo.state" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
-							<p>Country: <input class="student-input" name="country" type="text" ng-model="studentInfo.country" ng-disabled="block_input" ng-pattern="/^(\w[\-\.\s]?)+$/" /></p>
-							<p>Phone Number: <input class="student-input" name="phone" type="text" placeholder="555-555-5555" ng-model="studentInfo.phone" ng-disabled="block_input" ng-pattern="/^\d{3}\-\d{3}\-\d{4}$/" /></p>
-							<p>Email: <input class="student-input" name="email" type="email" placeholder="example@exam.ple" ng-model="studentInfo.email" ng-disabled="block_input"/></p>
-							<input class="student-input" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput()"/>
-							<input class="student-input" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
-							<input class="student-input" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
-							<input class="student-input" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.studentID.$invalid || form.studentID.$modelValue.length == 0"/>
-							<input class="student-input" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
+							<div id="text-input-section">
+								<div id="input-fields">
+									<div class="input-field">
+										<label for="studentID">Student ID: </label>
+										<input class="student" id="studentID-input" name="studentID" type="text" size="30" placeholder="00000000" ng-model="studentInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/>	
+									</div>
+									<div class="input-field">
+										<label for="firstName">First Name: </label>
+										<input class="student-input" id="firstName" name="firstName" type="text" size="30" ng-model="studentInfo.firstName" ng-disabled="block_input" ng-pattern="/^([A-Za-z](\-[A-Za-z])?)+$/" />
+									</div>
+									<div class="input-field">
+										<label for="lastName">Last Name: </label>
+										<input class="student-input" id="lastName" name="lastName" type="text" size="30" ng-model="studentInfo.lastName" ng-disabled="block_input" ng-pattern="/^([A-Za-z](\-[A-Za-z])?)+$/" />	
+									</div>
+									<div class="input-field">
+										<label for="address">Address: </label>
+										<input class="student-input" id="address" name="address" type="text" size="30" ng-model="studentInfo.address" ng-disabled="block_input" ng-pattern="/^(\w([\-\.\s]\w)?)+$/" />
+									</div>
+									<div class="input-field">
+										<label for="city">City: </label>
+										<input class="student-input" id="city" name="city" type="text" size="30" ng-model="studentInfo.city" ng-disabled="block_input" ng-pattern="/^(\w([\-\.\s]\w)?)+$/" />
+									</div>
+									<div class="input-field">
+										<label for="state">State/Province: </label>
+										<input class="student-input" id="state" name="state" type="text" size="30" ng-model="studentInfo.state" ng-disabled="block_input" ng-pattern="/^(\w([\-\.\s]\w)?)+$/" />
+									</div>
+									<div class="input-field">
+										<label for="country">Country: </label>
+										<input class="student-input" id="country" name="country" type="text" size="30" ng-model="studentInfo.country" ng-disabled="block_input" ng-pattern="/^(\w([\-\.\s]\w)?)+$/" />
+									</div>
+									<div class="input-field">
+										<label for="phone">Phone: </label>
+										<input class="student-input" id="phone" name="phone" type="text" size="30" placeholder="555-555-5555" ng-model="studentInfo.phone" ng-disabled="block_input" ng-pattern="/^\d{3}\-\d{3}\-\d{4}$/" />
+									</div>
+									<div class="input-field">
+										<label for="email">Email: </label>
+										<input class="student-input" id="email" name="email" type="email" size="30" placeholder="example@exam.ple" ng-model="studentInfo.email" ng-disabled="block_input"/>
+									</div>
+								</div>
+								
+								<!-- This section generates error messages if the user enters an invalid line -->
+								<div id="input-warnings">
+									<p class="input-warning" ng-style="badInput(form.studentID.$invalid)">* Warning: Invalid Student ID</p>
+									<p class="input-warning" ng-style="badInput(form.firstName.$invalid)">* Warning: Invalid First Name</p>
+									<p class="input-warning" ng-style="badInput(form.lastName.$invalid)">* Warning: Invalid Last Name</p>
+									<p class="input-warning" ng-style="badInput(form.address.$invalid)">* Warning: Invalid Address</p>
+									<p class="input-warning" ng-style="badInput(form.city.$invalid)">* Warning: Invalid City</p>
+									<p class="input-warning" ng-style="badInput(form.state.$invalid)">* Warning: Invalid State</p>
+									<p class="input-warning" ng-style="badInput(form.country.$invalid)">* Warning: Invalid Country</p>
+									<p class="input-warning" ng-style="badInput(form.phone.$invalid)">* Warning: Invalid Phone</p>
+									<p class="input-warning" ng-style="badInput(form.email.$invalid)">* Warning: Invalid Email</p>
+								</div>
+							</div>		
+								
+							<!-- This section will state if there are invalid lines -->
+							<div class="error-message" ng-style="badInput(invalidInputs())">
+								<p class="warning">One or more of the following field(s) above have invalid input and will be ignored when submitting, updating, and deleting student info.</p>
+							</div>							
+							<div id="input-buttons">
+								<input class="student-input" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput()"/>
+								<input class="student-input" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
+								<input class="student-input" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
+								<input class="student-input" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.studentID.$invalid || form.studentID.$modelValue.length == 0"/>
+								<input class="student-input" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
+							</div>
 						</form>
 					</div>
-					
-					<!-- This section will list any erroneous inputs the user may have entered -->
-					<div id="error-list">
-						<p>The following field(s) have invalid input. They will be ignored when submitting, updating, and deleting student info.</p>
-					</div>
-					
-					<!-- These three sections report the server's output -->
+				
+					<!-- These two sections report the server's output -->
 					
 					<!-- Basic text output confirming that an action occurred -->
 					<div id="simple-report" style="display:none;">
@@ -49,7 +95,7 @@
 						<p>{{result}}</p>
 						<table>
 							<tr>
-								<th>StudentID</th>
+								<th>Student ID</th>
 								<th>First Name</th>
 								<th>Last Name</th>
 								<th>Address</th>
@@ -79,6 +125,7 @@
 				</div>
 			</div>
 			
+			<!-- Angular programming here. -->
 			<script>
 				var mainApp = angular.module("mainApp", []);
 				
@@ -105,7 +152,6 @@
 					$scope.submitData = function(){
 						document.getElementById('simple-report').style.display = 'none';
 						document.getElementById('search-report').style.display = 'none';
-						document.getElementById('delete-report').style.display = 'none';
 					
 						var studentInfo = $scope.studentInfo;
 						
@@ -135,7 +181,6 @@
 					$scope.retrieveData = function(reason){
 						document.getElementById('simple-report').style.display = 'none';
 						document.getElementById('search-report').style.display = 'none';
-						document.getElementById('delete-report').style.display = 'none';
 						
 						var studentInfo = $scope.studentInfo;
 						var data = {
@@ -179,7 +224,6 @@
 					$scope.deleteData = function(){
 						document.getElementById('simple-report').style.display = 'none';
 						document.getElementById('search-report').style.display = 'none';
-						document.getElementById('delete-report').style.display = 'none';
 						
 						var studentInfo = $scope.studentInfo;
 						
@@ -207,7 +251,6 @@
 					$scope.updateData = function(){
 						document.getElementById('simple-report').style.display = 'none';
 						document.getElementById('search-report').style.display = 'none';
-						document.getElementById('delete-report').style.display = 'none';
 					
 						var studentInfo = $scope.studentInfo;
 						
@@ -234,7 +277,6 @@
 					$scope.clearInput = function(message){
 						document.getElementById('simple-report').style.display = 'none';
 						document.getElementById('search-report').style.display = 'none';
-						document.getElementById('delete-report').style.display = 'none';
 						
 						$scope.studentInfo.studentID = "";
 						$scope.studentInfo.firstName = "";
@@ -262,6 +304,29 @@
 								$scope.form.country.$invalid || $scope.form.country.$modelValue.length == 0 ||
 								$scope.form.phone.$invalid || $scope.form.phone.$modelValue.length == 0 ||
 								$scope.form.email.$invalid || $scope.form.email.$modelValue.length == 0);
+					}
+					
+					// Basically the same as missingInput except this doesn't check if the input is blank.
+					$scope.invalidInputs = function(){
+						return ($scope.form.studentID.$invalid ||
+								$scope.form.firstName.$invalid || 
+								$scope.form.lastName.$invalid || 
+								$scope.form.address.$invalid || 
+								$scope.form.city.$invalid || 
+								$scope.form.state.$invalid || 
+								$scope.form.country.$invalid || 
+								$scope.form.phone.$invalid || 
+								$scope.form.email.$invalid);
+					}
+					
+					$scope.badInput = function(form_input){
+						if(form_input){
+							return {'visibility' : 'visible'};
+						}
+						
+						else{
+							return {'visibility' : 'hidden'};
+						}
 					}
 				});
 			</script>
