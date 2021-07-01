@@ -17,9 +17,11 @@
 						<form name="form">
 							<div id="text-input-section">
 								<div id="input-fields">
-									<div class="input-field">
+									
+									<!-- NOTE: Inline style used for this one input so that different-sized input box lines up. ADJUST THIS ACCORDINGLY IF NEEDED! -->
+									<div class="input-field" style="margin-right:130.5333px;">
 										<label for="studentID">Student ID: </label>
-										<input class="student" id="studentID-input" name="studentID" type="text" size="30" placeholder="00000000" ng-model="studentInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/>	
+										<input class="student" id="studentID-input" name="studentID" type="text" size="8" placeholder="00000000" ng-model="studentInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/>	
 									</div>
 									<div class="input-field">
 										<label for="firstName">First Name: </label>
@@ -45,9 +47,11 @@
 										<label for="country">Country: </label>
 										<input class="student-input" id="country" name="country" type="text" size="30" ng-model="studentInfo.country" ng-disabled="block_input" ng-pattern="/^(\w([\-\.\s]\w)?)+$/" />
 									</div>
-									<div class="input-field">
+									
+									<!-- NOTE: Inline style used for this one input so that different-sized input box lines up. ADJUST THIS ACCORDINGLY IF NEEDED! -->
+									<div class="input-field" style="margin-right:89px">
 										<label for="phone">Phone: </label>
-										<input class="student-input" id="phone" name="phone" type="text" size="30" placeholder="555-555-5555" ng-model="studentInfo.phone" ng-disabled="block_input" ng-pattern="/^\d{3}\-\d{3}\-\d{4}$/" />
+										<input class="student-input" id="phone" name="phone" type="text" size="15" placeholder="555-555-5555" ng-model="studentInfo.phone" ng-disabled="block_input" maxlength="12" ng-pattern="/^\d{3}\-\d{3}\-\d{4}$/" />
 									</div>
 									<div class="input-field">
 										<label for="email">Email: </label>
@@ -64,14 +68,14 @@
 									<p class="input-warning" ng-style="badInput(form.city.$invalid)">* Warning: Invalid City</p>
 									<p class="input-warning" ng-style="badInput(form.state.$invalid)">* Warning: Invalid State</p>
 									<p class="input-warning" ng-style="badInput(form.country.$invalid)">* Warning: Invalid Country</p>
-									<p class="input-warning" ng-style="badInput(form.phone.$invalid)">* Warning: Invalid Phone</p>
+									<p class="input-warning" ng-style="badInput(form.phone.$invalid)">* Warning: Invalid Phone Number</p>
 									<p class="input-warning" ng-style="badInput(form.email.$invalid)">* Warning: Invalid Email</p>
 								</div>
 							</div>		
 								
 							<!-- This section will state if there are invalid lines -->
 							<div class="error-message" ng-style="badInput(invalidInputs())">
-								<p class="warning">One or more of the following field(s) above have invalid input and will be ignored when submitting, updating, and deleting student info.</p>
+								<p class="warning">One or more of the fields above has/have invalid input and will be ignored when submitting, updating, and deleting student info.</p>
 							</div>							
 							<div id="input-buttons">
 								<input class="student-input" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput()"/>
