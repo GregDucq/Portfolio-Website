@@ -1,0 +1,25 @@
+<!doctype HTML>
+	<html>
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<title>College Records Database (JS/Angular/SQL)</title>
+			<link rel="stylesheet" href="/css/stylesheet.css">
+			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+			<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+			<script src = "college-records-sections/main.js"></script>
+			<script src = "college-records-sections/student-records-system/StudentRecordsController.js"></script>
+			<script type="text/javascript">	
+			</script>
+		</head>
+		<body>
+			<div ng-app="mainApp">
+				<a href="#student-records">Click Me!</a>
+				<div ng-view></div>
+				<script type="text/ng-template" id="student-records.htm">
+					<div ng-include="'college-records-sections/student-records-system/student-records-system.html'"></div>
+				</script>
+			</div>
+		</body>
+	</html>
+	
+	
