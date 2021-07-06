@@ -13,7 +13,7 @@
 		$res = $db->exec($query);
 		
 		if($res){
-			echo "Professor entered into database with query."
+			echo "Professor entered into database with query.";
 		}
 		
 		else{
