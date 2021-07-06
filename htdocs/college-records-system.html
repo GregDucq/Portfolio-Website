@@ -9,6 +9,7 @@
 			<script src = "college-records-sections/main.js"></script>
 			<script src = "college-records-sections/student-records-system/StudentRecordsController.js"></script>
 			<script src = "college-records-sections/course-records-system/courseRecordsController.js"></script>
+			<script src = "college-records-sections/prof-records-system/profRecordsController.js"></script>
 			<script type="text/javascript">	
 			</script>
 		</head>
@@ -16,12 +17,16 @@
 			<div ng-app="mainApp">
 				<a href="#student-records">Student Records</a>
 				<a href="#course-records">Course Records</a>
+				<a href="#professor-records">Professor Records</a>
 				<div ng-view></div>
 				<script type="text/ng-template" id="student-records.htm">
 					<div ng-include="'college-records-sections/student-records-system/student-records-system.html'"></div>
 				</script>
 				<script type="text/ng-template" id="course-records.htm">
 					<div ng-include="'college-records-sections/course-records-system/course-records-system.html'"></div>
+				</script>
+				<script type="text/ng-template" id="prof-records.htm">
+					<div ng-include="'college-records-sections/prof-records-system/prof-records-system.html'"></div>
 				</script>
 			</div>
 		</body>
