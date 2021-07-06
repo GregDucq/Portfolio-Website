@@ -13,8 +13,6 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 	$scope.result_table = "";
 	$scope.block_input = false;
 
-	$scope.temp = '\d{8}'
-
 	$scope.submitData = function(){
 		document.getElementById('simple-report').style.display = 'none';
 		document.getElementById('search-report').style.display = 'none';
@@ -52,10 +50,6 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 			profID: courseInfo.profID,
 			courseTime: courseInfo.courseTime,
 			courseDays: courseInfo.courseDays,
-			state: courseInfo.state,
-			country: courseInfo.country,
-			phone: courseInfo.phone,
-			email: courseInfo.email	
 		}
 		
 		$http.post("php/course-info-access.php",data)
