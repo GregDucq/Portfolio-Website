@@ -8,8 +8,9 @@
 			<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
 			<script src = "college-records-sections/main.js"></script>
 			<script src = "college-records-sections/student-records-system/StudentRecordsController.js"></script>
-			<script src = "college-records-sections/course-records-system/courseRecordsController.js"></script>
-			<script src = "college-records-sections/prof-records-system/profRecordsController.js"></script>
+			<script src = "college-records-sections/course-records-system/CourseRecordsController.js"></script>
+			<script src = "college-records-sections/prof-records-system/ProfRecordsController.js"></script>
+			<script src = "college-records-sections/student-course-records-system/StudentCourseRecordsController.js"></script>
 			<script type="text/javascript">	
 			</script>
 		</head>
@@ -18,6 +19,7 @@
 				<a href="#student-records">Student Records</a>
 				<a href="#course-records">Course Records</a>
 				<a href="#professor-records">Professor Records</a>
+				<a href="#student-course-records">Student-Course Records</a>
 				<div ng-view></div>
 				<script type="text/ng-template" id="student-records.htm">
 					<div ng-include="'college-records-sections/student-records-system/student-records-system.html'"></div>
@@ -27,6 +29,9 @@
 				</script>
 				<script type="text/ng-template" id="prof-records.htm">
 					<div ng-include="'college-records-sections/prof-records-system/prof-records-system.html'"></div>
+				</script>
+				<script type="text/ng-template" id="student-course-records.htm">
+					<div ng-include="'college-records-sections/student-course-records-system/student-course-records-system.html'"></div>
 				</script>
 			</div>
 		</body>

@@ -1,0 +1,84 @@
+<!doctype HTML>
+	<html>
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<title>College Records Database (JS/Angular/SQL)</title>
+			<link rel="stylesheet" href="/css/stylesheet.css">
+		</head>
+		<body>		
+			<div id="body-section">
+				<div>
+					<!--The main student form -->
+					<div id="records-inputs">
+						<form name="form">
+							<div id="text-input-section">
+								<div id="input-fields">
+									
+									<!-- NOTE: Inline style used for this one input so that different-sized input box lines up. ADJUST THIS ACCORDINGLY IF NEEDED! -->
+									<div class="input-field">
+										<label for="studentID">Student ID: </label>
+										<input class="input-section" id="studentID" name="studentID" type="text" size="30" placeholder="00000000" ng-model="studentCourseInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/>	
+									</div>
+									<div class="input-field">
+										<label for="courseID">Course ID: </label>
+										<input class="input-section" id="courseID" name="courseID" type="text" size="30" placeholder="00000000" ng-model="studentCourseInfo.courseID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/" />
+									</div>
+									<div class="input-field">
+										<label for="grade">Grade: </label>
+										<input class="input-section" id="grade" name="grade" type="text" size="30" ng-model="studentCourseInfo.grade" ng-disabled="block_input" ng-pattern="/^([A-Za-z](\-[A-Za-z])?)+$/" />
+									</div>
+								</div>
+								
+								<!-- This section generates error messages if the user enters an invalid line -->
+								<div id="input-warnings">
+									<p class="input-warning" ng-style="badInput(form.studentID.$invalid)">* Warning: Invalid Student ID</p>
+									<p class="input-warning" ng-style="badInput(form.courseID.$invalid)">* Warning: Invalid Course ID</p>
+									<p class="input-warning" ng-style="badInput(form.grade.$invalid)">* Warning: Invalid Grade</p>
+								</div>
+							</div>		
+								
+							<!-- This section will state if there are invalid lines -->
+							<div class="error-message" ng-style="badInput(invalidInputs(form))">
+								<p class="warning">One or more of the fields above has/have invalid input and will be ignored when submitting, updating, and deleting student info.</p>
+							</div>							
+							<div id="input-buttons">
+								<input class="input-section" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput(form)"/>
+								<input class="input-section" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
+								<input class="input-section" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
+								<input class="input-section" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.studentID.$invalid || form.studentID.$modelValue.length == 0"/>
+								<input class="input-section" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
+							</div>
+						</form>
+					</div>
+				
+					<!-- These two sections report the server's output -->
+					
+					<!-- Basic text output confirming that an action occurred -->
+					<div id="simple-report" style="display:none;">
+						<p>{{result}}</p>
+					</div>
+					
+					<!-- Displays the results of looking up a student -->
+					<div id="search-report" style="display:none;">
+						<p>{{result}}</p>
+						<table>
+							<tr>
+								<th>Student ID</th>
+								<th>Course ID</th>
+								<th>Grade</th>
+							</tr>
+							<tr ng-repeat="studCourse in result_table">
+								<td>{{studCourse.studentID}}</td>
+								<td>{{studCourse.courseID}}</td>
+								<td>{{studCourse.grade}}</td>
+							</tr>
+						</table>
+						<div ng-show="block_input">
+							<input type="button" value="Confirm" ng-click="deleteData()"/>
+							<input type="button" value="Cancel" ng-click="clearInput('Deletion Cancelled.')"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
