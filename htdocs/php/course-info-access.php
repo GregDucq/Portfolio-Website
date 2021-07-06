@@ -16,7 +16,7 @@
 		$res = $db->exec($query);
 		
 		if($res){
-			echo "Course entered into database with query: " . $query;
+			echo "Course entered into database with query.";
 		}
 		
 		else{
