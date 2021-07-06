@@ -3,7 +3,7 @@ mainApp.controller('profRecordsController', function($scope, $http){
 	
 	$scope.profInfo = {
 		profID: "",
-		profName: "",
+		profName: ""
 	};
 	
 	$scope.result = "";
