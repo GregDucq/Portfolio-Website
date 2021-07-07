@@ -11,6 +11,7 @@
 			<script src = "college-records-sections/course-records-system/CourseRecordsController.js"></script>
 			<script src = "college-records-sections/prof-records-system/ProfRecordsController.js"></script>
 			<script src = "college-records-sections/student-course-records-system/StudentCourseRecordsController.js"></script>
+			<script src = "college-records-sections/grade-records-system/GradeRecordsController.js"></script>
 			<script type="text/javascript">	
 			</script>
 		</head>
@@ -20,6 +21,7 @@
 				<a href="#course-records">Course Records</a>
 				<a href="#professor-records">Professor Records</a>
 				<a href="#student-course-records">Student-Course Records</a>
+				<a href="#grade-records">Grade Records</a>
 				<div ng-view></div>
 				<script type="text/ng-template" id="student-records.htm">
 					<div ng-include="'college-records-sections/student-records-system/student-records-system.html'"></div>
@@ -32,6 +34,9 @@
 				</script>
 				<script type="text/ng-template" id="student-course-records.htm">
 					<div ng-include="'college-records-sections/student-course-records-system/student-course-records-system.html'"></div>
+				</script>
+				<script type="text/ng-template" id="grade-records.htm">
+					<div ng-include="'college-records-sections/grade-records-system/grade-records-system.html'"></div>
 				</script>
 			</div>
 		</body>
