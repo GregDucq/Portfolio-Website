@@ -1,9 +1,11 @@
 <?php
-	//error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
+	error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
 	
 	$postdata = file_get_contents("php://input");
 	$request = json_decode($postdata);
 	$db = new SQLite3('../../sqlite3/dbs/college-records/college-records.db');
+	$db->exec("PRAGMA foreign_keys = ON;"); // Needed to enforce foreign key links
+	
 	if($request->command == 0){	
 		$query = 'INSERT INTO studentCourseInfo (studentID, courseID, grade) VALUES('. 
 			'\'' . $request->studentID . '\',' .
@@ -14,7 +16,7 @@
 		$res = $db->exec($query);
 		
 		if($res){
-			echo "Student-course entered into database with query.";
+			echo "Student-course entered into database.";
 		}
 		
 		else{
