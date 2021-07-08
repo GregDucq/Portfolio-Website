@@ -4,7 +4,8 @@ mainApp.controller('studentCourseRecordsController', function($scope, $http){
 	$scope.studentCourseInfo = {
 		studentID: "",
 		courseID: "",
-		grade: ""
+		grade: "",
+		courseStatus: ""
 	};
 	
 	$scope.result = "";
@@ -21,7 +22,8 @@ mainApp.controller('studentCourseRecordsController', function($scope, $http){
 			command: 0,
 			studentID: studentCourseInfo.studentID,
 			courseID: studentCourseInfo.courseID,
-			grade: studentCourseInfo.grade
+			grade: studentCourseInfo.grade,
+			courseStatus: studentCourseInfo.courseStatus
 		}
 		
 		//data = $scope.cleanInputs(data);
@@ -43,7 +45,8 @@ mainApp.controller('studentCourseRecordsController', function($scope, $http){
 			command: 1,
 			studentID: studentCourseInfo.studentID,
 			courseID: studentCourseInfo.courseID,
-			grade: studentCourseInfo.grade
+			grade: studentCourseInfo.grade,
+			courseStatus: studentCourseInfo.courseStatus
 		}
 		
 		$http.post("php/student-course-info-access.php",data)
@@ -81,7 +84,8 @@ mainApp.controller('studentCourseRecordsController', function($scope, $http){
 			command: 2,
 			studentID: studentCourseInfo.studentID,
 			courseID: studentCourseInfo.courseID,
-			grade: studentCourseInfo.grade
+			grade: studentCourseInfo.grade,
+			courseStatus: studentCourseInfo.courseStatus
 		}
 		
 		$http.post("php/student-course-info-access.php",data)
@@ -102,7 +106,8 @@ mainApp.controller('studentCourseRecordsController', function($scope, $http){
 			command: 3,
 			studentID: studentCourseInfo.studentID,
 			courseID: studentCourseInfo.courseID,
-			grade: studentCourseInfo.grade
+			grade: studentCourseInfo.grade,
+			courseStatus: studentCourseInfo.courseStatus
 		}
 		
 		$http.post("php/student-course-info-access.php",data)
@@ -119,6 +124,7 @@ mainApp.controller('studentCourseRecordsController', function($scope, $http){
 		$scope.studentCourseInfo.studentID = "";
 		$scope.studentCourseInfo.courseID = "";
 		$scope.studentCourseInfo.grade = "";
+		$scope.studentCourseInfo.courseStatus = "";
 		
 		$scope.result = message;
 		$scope.block_input = false;
@@ -129,14 +135,16 @@ mainApp.controller('studentCourseRecordsController', function($scope, $http){
 	$scope.missingInput = function(form){
 		return (form.studentID.$invalid || form.studentID.$modelValue.length == 0 ||
 			form.courseID.$invalid || form.courseID.$modelValue.length == 0 || 
-			form.grade.$invalid || form.grade.$modelValue.length == 0);
+			form.grade.$invalid || form.grade.$modelValue.length == 0 ||
+			form.courseStatus.$invalid || form.courseStatus.$modelValue.length == 0);
 	};
 
 	// Basically the same as missingInput except this doesn't check if the input is blank.
 	$scope.invalidInputs = function(form){
 		return (form.studentID.$invalid ||
 			form.courseID.$invalid ||
-			form.grade.$invalid);
+			form.grade.$invalid ||
+			form.courseStatus.$invalid);
 	};
 
 	$scope.badInput = function(form_input){

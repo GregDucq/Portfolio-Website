@@ -25,7 +25,11 @@
 									</div>
 									<div class="input-field">
 										<label for="grade">Grade: </label>
-										<input class="input-section" id="grade" name="grade" type="text" size="30" ng-model="studentCourseInfo.grade" ng-disabled="block_input" ng-pattern="/^([A-Za-z](\-[A-Za-z])?)+$/" />
+										<input class="input-section" id="grade" name="grade" type="text" size="30" placeholder="B+" ng-model="studentCourseInfo.grade" ng-disabled="block_input" maxlength="2" ng-pattern="/^([ABCD][\+\-]?)|F$/" />
+									</div>
+									<div class="input-field">
+										<label for="courseStatus">Status: </label>
+										<input class="input-section" id="courseStatus" name="courseStatus" type="text" size="30" placeholder="A/P/F" ng-model="studentCourseInfo.courseStatus" ng-disabled="block_input" maxlength="1" ng-pattern="/^[AaPpFf]$/" />
 									</div>
 								</div>
 								
@@ -34,6 +38,7 @@
 									<p class="input-warning" ng-style="badInput(form.studentID.$invalid)">* Warning: Invalid Student ID</p>
 									<p class="input-warning" ng-style="badInput(form.courseID.$invalid)">* Warning: Invalid Course ID</p>
 									<p class="input-warning" ng-style="badInput(form.grade.$invalid)">* Warning: Invalid Grade</p>
+									<p class="input-warning" ng-style="badInput(form.courseStatus.$invalid)">* Warning: Invalid Status</p>
 								</div>
 							</div>		
 								
@@ -45,7 +50,7 @@
 								<input class="input-section" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput(form)"/>
 								<input class="input-section" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
 								<input class="input-section" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
-								<input class="input-section" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.studentID.$invalid || form.studentID.$modelValue.length == 0"/>
+								<input class="input-section" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.studentID.$invalid || form.studentID.$modelValue.length == 0 || form.courseID.$invalid || form.courseID.$modelValue.length == 0"/>
 								<input class="input-section" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
 							</div>
 						</form>
@@ -66,11 +71,13 @@
 								<th>Student ID</th>
 								<th>Course ID</th>
 								<th>Grade</th>
+								<th>Status</th>
 							</tr>
 							<tr ng-repeat="studCourse in result_table">
 								<td>{{studCourse.studentID}}</td>
 								<td>{{studCourse.courseID}}</td>
 								<td>{{studCourse.grade}}</td>
+								<td>{{studCourse.courseStatus}}</td>
 							</tr>
 						</table>
 						<div ng-show="block_input">
