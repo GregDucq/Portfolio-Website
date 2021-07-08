@@ -6,7 +6,8 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 		courseName: "",
 		profID: "",
 		courseTime: "",
-		courseDays: ""
+		courseDays: "",
+		courseCredits: ""
 	};
 	
 	$scope.result = "";
@@ -26,6 +27,7 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 			profID: courseInfo.profID,
 			courseTime: courseInfo.courseTime,
 			courseDays: courseInfo.courseDays,
+			courseCredits: courseInfo.courseCredits
 		}
 		
 		//data = $scope.cleanInputs(data);
@@ -50,6 +52,7 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 			profID: courseInfo.profID,
 			courseTime: courseInfo.courseTime,
 			courseDays: courseInfo.courseDays,
+			courseCredits: courseInfo.courseCredits
 		}
 		
 		$http.post("php/course-info-access.php",data)
@@ -90,6 +93,7 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 			profID: courseInfo.profID,
 			courseTime: courseInfo.courseTime,
 			courseDays: courseInfo.courseDays,
+			courseCredits: courseInfo.courseCredits
 		}
 		
 		$http.post("php/course-info-access.php",data)
@@ -113,6 +117,7 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 			profID: courseInfo.profID,
 			courseTime: courseInfo.courseTime,
 			courseDays: courseInfo.courseDays,
+			courseCredits: courseInfo.courseCredits
 		}
 		
 		$http.post("php/course-info-access.php",data)
@@ -131,6 +136,7 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 		$scope.courseInfo.profID = "";
 		$scope.courseInfo.courseTime = "";
 		$scope.courseInfo.courseDays = "";
+		$scope.courseInfo.courseCredits = "";
 		
 		$scope.result = message;
 		$scope.block_input = false;
@@ -143,7 +149,8 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 			form.courseName.$invalid || form.courseName.$modelValue.length == 0 ||
 			form.profID.$invalid || form.profID.$modelValue.length == 0 ||
 			form.courseTime.$invalid || form.courseTime.$modelValue.length == 0 ||
-			form.courseDays.$invalid || form.courseDays.$modelValue.length == 0);
+			form.courseDays.$invalid || form.courseDays.$modelValue.length == 0 ||
+			form.courseCredits.$invalid || form.courseCredits.$modelValue.length == 0);
 	};
 
 	// Basically the same as missingInput except this doesn't check if the input is blank.
@@ -152,7 +159,8 @@ mainApp.controller('courseRecordsController', function($scope, $http){
 			form.courseName.$invalid || 
 			form.profID.$invalid || 
 			form.courseTime.$invalid || 
-			form.courseDays.$invalid);
+			form.courseDays.$invalid ||
+			form.courseCredits.$invalid);
 	};
 
 	$scope.badInput = function(form_input){

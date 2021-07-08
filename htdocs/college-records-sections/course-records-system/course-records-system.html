@@ -25,7 +25,7 @@
 									</div>
 									<div class="input-field">
 										<label for="profID">Professor ID: </label>
-										<input class="input-section" id="profID" name="profID" type="text" size="30" ng-model="courseInfo.profID" ng-disabled="block_input" ng-pattern="/^\d{8}$/" />	
+										<input class="input-section" id="profID" name="profID" type="text" size="30" ng-model="courseInfo.profID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/" />	
 									</div>
 									<div class="input-field">
 										<label for="courseTime">Course Hours: </label>
@@ -34,6 +34,10 @@
 									<div class="input-field">
 										<label for="courseDay">Course Days: </label>
 										<input class="input-section" id="courseDay" name="courseDays" type="text" size="30" ng-model="courseInfo.courseDays" ng-disabled="block_input" ng-pattern="/^(\w([\-\.\s]\w)?)+$/" />
+									</div>
+									<div class="input-field">
+										<label for="courseDay">Course Credits: </label>
+										<input class="input-section" id="courseDay" name="courseCredits" type="text" size="30" ng-model="courseInfo.courseCredits" ng-disabled="block_input" maxlength="2" ng-pattern="/^\d{1,2}$/" />
 									</div>
 								</div>
 								
@@ -44,6 +48,7 @@
 									<p class="input-warning" ng-style="badInput(form.profID.$invalid)">* Warning: Invalid Professor ID</p>
 									<p class="input-warning" ng-style="badInput(form.courseTime.$invalid)">* Warning: Invalid Course Hours</p>
 									<p class="input-warning" ng-style="badInput(form.courseDays.$invalid)">* Warning: Invalid Course Days</p>
+									<p class="input-warning" ng-style="badInput(form.courseCredits.$invalid)">* Warning: Invalid Course Credits</p>
 								</div>
 							</div>		
 								
@@ -53,10 +58,10 @@
 							</div>							
 							<div id="input-buttons">
 								<input class="input-section" type="button" value="Submit Data" ng-click="submitData()" ng-disabled="block_input || missingInput(form)"/>
-								<input class="student-input" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
-								<input class="student-input" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
-								<input class="student-input" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.studentID.$invalid || form.studentID.$modelValue.length == 0"/>
-								<input class="student-input" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
+								<input class="input-section" type="button" value="Display Data" ng-click="retrieveData(0)" ng-disabled="block_input"/>
+								<input class="input-section" type="button" value="Delete Data" ng-click="retrieveData(1)" ng-disabled="block_input"/>
+								<input class="input-section" type="button" value="Update Data" ng-click="updateData()" ng-disabled="block_input || form.courseID.$invalid || form.courseID.$modelValue.length == 0"/>
+								<input class="input-section" type="button" value="Clear Input" ng-click="clearInput('Input Cleared.')" ng-disabled="block_input"/>
 							</div>
 						</form>
 					</div>
@@ -78,6 +83,7 @@
 								<th>Professor ID</th>
 								<th>Course Hours</th>
 								<th>Course Days</th>
+								<th>Course Credits</th>
 							</tr>
 							<tr ng-repeat="course in result_table">
 								<td>{{course.courseID}}</td>
@@ -85,6 +91,7 @@
 								<td>{{course.profID}}</td>
 								<td>{{course.courseTime}}</td>
 								<td>{{course.courseDays}}</td>
+								<td>{{course.courseCredits}}</td>
 							</tr>
 						</table>
 						<div ng-show="block_input">
