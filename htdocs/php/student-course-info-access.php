@@ -29,9 +29,7 @@
 			'\'' . $gradeVals[$request->grade] . '\',' .
 			'\'' . $request->courseStatus .
 			'\');';
-
-		echo $query;
-
+			
 		$res = $db->exec($query);
 		
 		if($res){
