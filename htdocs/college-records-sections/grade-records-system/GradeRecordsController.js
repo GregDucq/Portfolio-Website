@@ -3,9 +3,10 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 	
 	$scope.gradeInfo = {
 		studentID: "",
-		gpa: "",
-		semHours: "",
-		totalHours: "",
+		currentGPA: "",
+		totalGPA: "",
+		semCredits: "",
+		totalCredits: "",
 		canGrad: ""
 	};
 	
@@ -22,9 +23,10 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 		var data = {
 			command: 0,
 			studentID: gradeInfo.studentID,
-			gpa: gradeInfo.gpa,
-			semHours: gradeInfo.semHours,
-			totalHours: gradeInfo.totalHours,
+			currentGPA: gradeInfo.currentGPA,
+			totalGPA: gradeInfo.totalGPA,
+			semCredits: gradeInfo.semCredits,
+			totalCredits: gradeInfo.totalCredits,
 			canGrad: gradeInfo.canGrad,
 		}
 		
@@ -46,9 +48,10 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 		var data = {
 			command: 1,
 			studentID: gradeInfo.studentID,
-			gpa: gradeInfo.gpa,
-			semHours: gradeInfo.semHours,
-			totalHours: gradeInfo.totalHours,
+			currentGPA: gradeInfo.currentGPA,
+			totalGPA: gradeInfo.totalGPA,
+			semCredits: gradeInfo.semCredits,
+			totalCredits: gradeInfo.totalCredits,
 			canGrad: gradeInfo.canGrad,
 		}
 		
@@ -86,9 +89,10 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 		var data = {
 			command: 2,
 			studentID: gradeInfo.studentID,
-			gpa: gradeInfo.gpa,
-			semHours: gradeInfo.semHours,
-			totalHours: gradeInfo.totalHours,
+			currentGPA: gradeInfo.currentGPA,
+			totalGPA: gradeInfo.totalGPA,
+			semCredits: gradeInfo.semCredits,
+			totalCredits: gradeInfo.totalCredits,
 			canGrad: gradeInfo.canGrad,
 		}
 		
@@ -109,9 +113,10 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 		var data = {
 			command: 3,
 			studentID: gradeInfo.studentID,
-			gpa: gradeInfo.gpa,
-			semHours: gradeInfo.semHours,
-			totalHours: gradeInfo.totalHours,
+			currentGPA: gradeInfo.currentGPA,
+			totalGPA: gradeInfo.totalGPA,
+			semCredits: gradeInfo.semCredits,
+			totalCredits: gradeInfo.totalCredits,
 			canGrad: gradeInfo.canGrad,
 		}
 		
@@ -127,9 +132,10 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 		document.getElementById('search-report').style.display = 'none';
 		
 		$scope.gradeInfo.studentID = "";
-		$scope.gradeInfo.gpa = "";
-		$scope.gradeInfo.semHours = "";
-		$scope.gradeInfo.totalHours = "";
+		$scope.gradeInfo.currentGPA = "";
+		$scope.gradeInfo.totalGPA = "";
+		$scope.gradeInfo.semCredits = "";
+		$scope.gradeInfo.totalCredits = "";
 		$scope.gradeInfo.canGrad = "";
 		
 		$scope.result = message;
@@ -140,18 +146,20 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 		
 	$scope.missingInput = function(form){
 		return (form.studentID.$invalid || form.studentID.$modelValue.length == 0 ||
-			form.gpa.$invalid || form.gpa.$modelValue.length == 0 ||
-			form.semHours.$invalid || form.semHours.$modelValue.length == 0 ||
-			form.totalHours.$invalid || form.totalHours.$modelValue.length == 0 ||
+			form.currentGPA.$invalid || form.currentGPA.$modelValue.length == 0 ||
+			form.totalGPA.$invalid || form.totalGPA.$modelValue.length == 0 ||
+			form.semCredits.$invalid || form.semCredits.$modelValue.length == 0 ||
+			form.totalCredits.$invalid || form.totalCredits.$modelValue.length == 0 ||
 			form.canGrad.$invalid || form.canGrad.$modelValue.length == 0);
 	};
 
 	// Basically the same as missingInput except this doesn't check if the input is blank.
 	$scope.invalidInputs = function(form){
 		return (form.studentID.$invalid ||
-			form.gpa.$invalid || 
-			form.semHours.$invalid || 
-			form.totalHours.$invalid || 
+			form.currentGPA.$invalid ||
+			form.totalGPA.$invalid ||		
+			form.semCredits.$invalid || 
+			form.totalCredits.$invalid || 
 			form.canGrad.$invalid);
 	};
 

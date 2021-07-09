@@ -1,10 +1,9 @@
 <?php
-	error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
+	//error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
 	
 	$postdata = file_get_contents("php://input");
 	$request = json_decode($postdata);
 	$db = new SQLite3('../../sqlite3/dbs/college-records/college-records.db');
-	$db->exec("PRAGMA foreign_keys = ON;"); // Needed to enforce foreign key links
 	if($request->command == 0){	
 		$query = 'INSERT INTO courseInfo (courseID, courseName, profID, courseTime, courseDays) VALUES('. 
 			'\'' . $request->courseID . '\',' .
@@ -29,49 +28,58 @@
 		$conditions = "";
 		
 		// Check for specific values to pull up.
-		if(!empty($request->courseID)){
-			$conditions .= (" courseID='" . $request->courseID . "'");
+		if(!empty($request->studentID)){
+			$conditions .= (" studentID='" . $request->studentID . "'");
 		}
 		
-		if(!empty($request->courseName)){
+		if(!empty($request->currentGPA)){
 			if(!empty($conditions)){
 				$conditions .= " and";
 			}
 			
-			$conditions .= (" courseName='" . $request->courseName . "'");
+			$conditions .= (" currentGPA='" . $request->currentGPA . "'");
 		}
 		
-		if(!empty($request->profID)){
+		if(!empty($request->totalGPA)){
 			if(!empty($conditions)){
 				$conditions .= " and";
 			}
 			
-			$conditions .= (" profID='" . $request->profID . "'");
+			$conditions .= (" totalGPA='" . $request->totalGPA . "'");
 		}
 		
-		if(!empty($request->courseTime)){
+		if(!empty($request->semCredits)){
 			if(!empty($conditions)){
 				$conditions .= " and";
 			}
 			
-			$conditions .= (" courseTime='" . $request->courseTime . "'");
+			$conditions .= (" semCredits='" . $request->semCredits . "'");
 		}
 		
-		if(!empty($request->courseDays)){
+		if(!empty($request->totalCredits)){
 			if(!empty($conditions)){
 				$conditions .= " and";
 			}
 			
-			$conditions .= (" courseDays='" . $request->courseDays . "'");
+			$conditions .= (" totalCredits='" . $request->totalCredits . "'");
 		}
-		
+
+		if(!empty($request->canGrad)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" canGrad='" . $request->canGrad . "'");
+		}
+
 		// Construct query based on what conditions are given
-		$query = "select * from courseInfo";
+		$query = "select * from gradeInfo";
+		
 		if(!empty($conditions)){
 			$query .= (" where" . $conditions);
 		}
 		$query .= ";";
-
+		
 		$res = $db->query($query);
 		$json_result = array();
 		while($row = $res->fetchArray(SQLITE3_ASSOC)){
@@ -80,6 +88,7 @@
 		}
 		
 		echo json_encode($json_result);
+
 	}
 	
 	elseif($request->command == 2){

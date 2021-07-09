@@ -20,16 +20,20 @@
 										<input class="input-section" id="studentID" name="studentID" type="text" size="30" placeholder="00000000" ng-model="gradeInfo.studentID" ng-disabled="block_input" maxlength="8" ng-pattern="/^\d{8}$/"/>	
 									</div>
 									<div class="input-field">
-										<label for="gpa">Total GPA: </label>
-										<input class="input-section" id="gpa" name="gpa" type="text" size="30" placeholder="4.000" ng-model="gradeInfo.gpa" ng-disabled="block_input" maxlength="5" ng-pattern="/^\d(\.\d+)?$/" />
+										<label for="currentGPA">Current GPA: </label>
+										<input class="input-section" id="currentGPA" name="currentGPA" type="text" size="30" placeholder="4.000" ng-model="gradeInfo.currentGPA" ng-disabled="block_input" maxlength="5" ng-pattern="/^\d(\.\d+)?$/" />
 									</div>
 									<div class="input-field">
-										<label for="semHours">Semester Hours: </label>
-										<input class="input-section" id="semHours" name="semHours" type="text" size="30" placeholder="15" ng-model="gradeInfo.semHours" ng-disabled="block_input" maxlength="4" ng-pattern="/^\d+$/" />	
+										<label for="totalGPA">Total GPA: </label>
+										<input class="input-section" id="totalGPA" name="totalGPA" type="text" size="30" placeholder="4.000" ng-model="gradeInfo.totalGPA" ng-disabled="block_input" maxlength="5" ng-pattern="/^\d(\.\d+)?$/" />
 									</div>
 									<div class="input-field">
-										<label for="totalHours">Total Hours: </label>
-										<input class="input-section" id="totalHours" name="totalHours" type="text" size="30" placeholder="60" ng-model="gradeInfo.totalHours" ng-disabled="block_input" maxlength="4" ng-pattern="/^\d+$/" />
+										<label for="semCredits">Semester Credits: </label>
+										<input class="input-section" id="semCredits" name="semCredits" type="text" size="30" placeholder="15" ng-model="gradeInfo.semCredits" ng-disabled="block_input" maxlength="4" ng-pattern="/^\d+$/" />	
+									</div>
+									<div class="input-field">
+										<label for="totalCredits">Total Credits: </label>
+										<input class="input-section" id="totalCredits" name="totalCredits" type="text" size="30" placeholder="60" ng-model="gradeInfo.totalCredits" ng-disabled="block_input" maxlength="4" ng-pattern="/^\d+$/" />
 									</div>
 									<div class="input-field">
 										<label for="canGrad">Will Graduate?: </label>
@@ -40,9 +44,10 @@
 								<!-- This section generates error messages if the user enters an invalid line -->
 								<div id="input-warnings">
 									<p class="input-warning" ng-style="badInput(form.studentID.$invalid)">* Warning: Invalid Student ID</p>
-									<p class="input-warning" ng-style="badInput(form.gpa.$invalid)">* Warning: Invalid GPA</p>
-									<p class="input-warning" ng-style="badInput(form.semHours.$invalid)">* Warning: Invalid Semester Hours</p>
-									<p class="input-warning" ng-style="badInput(form.totalHours.$invalid)">* Warning: Invalid Total Hours</p>
+									<p class="input-warning" ng-style="badInput(form.currentGPA.$invalid)">* Warning: Invalid Current GPA</p>
+									<p class="input-warning" ng-style="badInput(form.totalGPA.$invalid)">* Warning: Invalid Total GPA</p>
+									<p class="input-warning" ng-style="badInput(form.semCredits.$invalid)">* Warning: Invalid Semester Credits</p>
+									<p class="input-warning" ng-style="badInput(form.totalCredits.$invalid)">* Warning: Invalid Total Credits</p>
 									<p class="input-warning" ng-style="badInput(form.canGrad.$invalid)">* Warning: Invalid Graduation Type</p>
 								</div>
 							</div>		
@@ -71,16 +76,18 @@
 						<table>
 							<tr>
 								<th>Student ID</th>
-								<th>GPA</th>
-								<th>Semester Hours</th>
-								<th>Total Hours</th>
+								<th>Current GPA</th>
+								<th>Total GPA</th>
+								<th>Semester Credits</th>
+								<th>Total Credits</th>
 								<th>Can Graduate?</th>
 							</tr>
 							<tr ng-repeat="course in result_table">
 								<td>{{course.studentID}}</td>
-								<td>{{course.gpa}}</td>
-								<td>{{course.semHours}}</td>
-								<td>{{course.totalHours}}</td>
+								<td>{{course.currentGPA}}</td>
+								<td>{{course.totalGPA}}</td>
+								<td>{{course.semCredits}}</td>
+								<td>{{course.totalCredits}}</td>
 								<td>{{course.canGrad}}</td>
 							</tr>
 						</table>
