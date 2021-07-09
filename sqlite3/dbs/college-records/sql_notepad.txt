@@ -1,0 +1,133 @@
+create table courseInfo(courseID varchar(256), courseName varchar(256), profID varchar(256), courseTime varchar(256), courseDays varchar(256), primary key(courseID), foreign key(profID) references profInfo(profID));
+create table studentCourseInfo(studentID varchar(256), courseID varchar(256), gradeVal float(1), grade varchar(256), primary key (studentID, courseID), foreign key(studentID) references studentInfo(studentID), foreign key(courseID) references courseInfo(courseID));
+
+create table gradeInfo(studentID varchar(256), currentGPA float(3) default 0, totalGPA float(3) default 0, semCredits integer(4) default 0, totalCredits integer(4) default 0, canGrad bool, primary key(studentID), foreign key(studentID) references studentInfo(studentID));
+
+
+create trigger addStudentToGrades
+after insert on studentInfo
+begin
+	insert into gradeInfo(studentID, currentGPA, totalGPA, semCredits, totalCredits, canGrad) values (new.studentID, 0, 0, 0, 0, 'N');
+end;
+
+create 
+
+create trigger updateGradeInfoFromStudentCourseInfoInsert
+after insert on studentCourseInfo
+begin
+	update gradeInfo
+		set
+			currentGPA = (select ifnull(avg(gradeVal),0) from studentCourseInfo where studentID=new.studentID and courseStatus='A'),
+			totalGPA = (select ifnull(avg(gradeVal),0) from studentCourseInfo where studentID=new.studentID and (courseStatus='P' or courseStatus='F')),
+			semCredits = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus='A'),
+			totalCredits = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus='P'),
+			canGrad = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus != 'F') > 120
+		where
+			gradeInfo.studentID = new.studentID;
+end;
+
+create trigger updateGradeInfoFromStudentCourseInfoUpdate
+after update on studentCourseInfo
+begin
+	update gradeInfo
+		set
+			currentGPA = (select ifnull(avg(gradeVal),0) from studentCourseInfo where studentID=new.studentID and courseStatus='A'),
+			totalGPA = (select ifnull(avg(gradeVal),0) from studentCourseInfo where studentID=new.studentID and (courseStatus='P' or courseStatus='F')),
+			semCredits = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus='A'),
+			totalCredits = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus='P'),
+			canGrad = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus != 'F') > 120
+		where
+			gradeInfo.studentID = new.studentID;
+end;
+
+create trigger updateGradeInfoFromStudentCourseInfoDelete
+after delete on studentCourseInfo
+begin
+	update gradeInfo
+		set
+			currentGPA = (select ifnull(avg(gradeVal),0) from studentCourseInfo where studentID=new.studentID and courseStatus='A'),
+			totalGPA = (select ifnull(avg(gradeVal),0) from studentCourseInfo where studentID=new.studentID and (courseStatus='P' or courseStatus='F')),
+			semCredits = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus='A'),
+			totalCredits = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus='P'),
+			canGrad = (select ifnull(sum(CI.courseCredits), 0) from studentCourseInfo as SCI, courseInfo as CI where SCI.studentID=new.studentID and (SCI.courseID=CI.courseID) and SCI.courseStatus != 'F') > 120
+		where
+			gradeInfo.studentID = new.studentID;
+end;
+
+
+create trigger updateGradeInfoFromCourseInfoUpdate
+after update on courseInfo
+when 
+begin
+	  update gradeInfo
+		set
+			semCredits = (select ifnull(sum(CI.courseCredits), 0) from gradeInfo as GI, studentCourseInfo as SCI, courseInfo as CI where GI.studentID=SCI.studentID and SCI.courseStatus='A' and SCI.courseID=new.courseID),
+			totalCredits = (select ifnull(sum(CI.courseCredits), 0) from gradeInfo as GI, studentCourseInfo as SCI, courseInfo as CI where GI.studentID=SCI.studentID and SCI.courseStatus='P' and SCI.courseID=new.courseID),
+			canGrad = (select ifnull(sum(CI.courseCredits), 0) from gradeInfo as GI, studentCourseInfo as SCI, courseInfo as CI where GI.studentID=SCI.studentID and SCI.courseStatus != 'F' and SCI.courseID=new.courseID) > 120
+end
+
+update gradeInfo
+	set
+		semCredits = 
+	from gradeInfo join
+		(select sum(CI.courseCredits) as a_group from studentCourseInfo as SCI, courseInfo as CI where SCI.courseID=CI.courseID and SCI.courseStatus='A' group by SCI.studentID)
+		
+insert into gradeInfo(studentID, currentGPA, totalGPA, semCredits, totalCredits, canGrad) values ('11111111', 0, 0, 0, 0, 0);
+insert into gradeInfo(studentID, currentGPA, totalGPA, semCredits, totalCredits, canGrad) values ('12121212', 0, 0, 0, 0, 0);
+insert into gradeInfo(studentID, currentGPA, totalGPA, semCredits, totalCredits, canGrad) values ('99999999', 0, 0, 0, 0, 0);
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+select 
+	SCI.studentID,
+	ifnull(sum(case when courseStatus='A' then courseCredits else 0 end),0),
+	ifnull(sum(case when courseStatus='P' then courseCredits else 0 end),0),
+	ifnull(sum(case when courseStatus!='F' then courseCredits else 0 end),0) > 120
+from 
+	studentCourseInfo as SCI inner join gradeInfo as GI, courseInfo as CI on SCI.studentID=GI.studentID and SCI.courseID=CI.courseID group by SCI.studentID;
+	
+---------------------------------------------------------------------------------------------------------------------------------------
+
+create trigger updateGradeInfoFromCourseInfoUpdate
+after update on courseInfo
+begin
+update gradeInfo
+		set
+			semCredits = new_amounts.a_values,
+			totalCredits = new_amounts.p_values,
+			canGrad = new_amounts.f_values
+			
+		from
+			(select 
+				SCI.studentID,
+				ifnull(sum(case when courseStatus='A' then courseCredits else 0 end),0) as a_values,
+				ifnull(sum(case when courseStatus='P' then courseCredits else 0 end),0) as p_values,
+				ifnull(sum(case when courseStatus!='F' then courseCredits else 0 end),0) > 120 as f_values
+			from 
+				studentCourseInfo as SCI inner join gradeInfo as GI, courseInfo as CI on SCI.studentID=GI.studentID and SCI.courseID=CI.courseID group by SCI.studentID) as new_amounts
+
+		where gradeInfo.studentID = new_amounts.studentID;
+end;
+
+-------------------------------------------------------------------------------
+
+update gradeInfo
+		set
+			semCredits = new_amounts.a_values,
+			totalCredits = new_amounts.p_values,
+			canGrad = new_amounts.f_values
+			
+		from
+			(select 
+				SCI.studentID,
+				ifnull(sum(case when courseStatus='A' then courseCredits else 0 end),0) as a_values,
+				ifnull(sum(case when courseStatus='P' then courseCredits else 0 end),0) as p_values,
+				ifnull(sum(case when courseStatus!='F' then courseCredits else 0 end),0) > 120 as f_values
+			from 
+				studentCourseInfo as SCI inner join gradeInfo as GI, courseInfo as CI on SCI.studentID=GI.studentID and SCI.courseID=CI.courseID group by SCI.studentID) as new_amounts
+
+		where gradeInfo.studentID = new_amounts.studentID;
+
+update gradeInfo set semCredits=0, totalCredits=12,canGrad=0 where studentID='11111111';
+update gradeInfo set semCredits=142, totalCredits=0,canGrad=1 where studentID='12121212';
+update gradeInfo set semCredits=12, totalCredits=130,canGrad=1 where studentID='99999999';
