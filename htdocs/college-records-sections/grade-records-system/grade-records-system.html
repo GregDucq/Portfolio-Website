@@ -81,6 +81,7 @@
 								<th>Semester Credits</th>
 								<th>Total Credits</th>
 								<th>Can Graduate?</th>
+								<th>Course Grades</th>
 							</tr>
 							<tr ng-repeat="course in result_table">
 								<td>{{course.studentID}}</td>
@@ -89,6 +90,20 @@
 								<td>{{course.semCredits}}</td>
 								<td>{{course.totalCredits}}</td>
 								<td>{{course.canGrad}}</td>
+								<td>
+									<table>
+										<tr>
+											<th>Course ID</th>
+											<th>Grade</th>
+											<th>Course Status</th>
+										</tr>
+										<tr ng-repeat="grade in course.gradeInfo">
+											<td>{{grade.courseID}}</td>
+											<td>{{grade.grade}}</td>
+											<td>{{grade.courseStatus}}</td>
+										</tr>
+									</table>
+								</td>
 							</tr>
 						</table>
 						<div ng-show="block_input">

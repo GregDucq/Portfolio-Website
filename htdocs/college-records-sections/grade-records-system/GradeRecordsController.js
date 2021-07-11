@@ -1,4 +1,3 @@
-	
 mainApp.controller('gradeRecordsController', function($scope, $http){
 	
 	$scope.gradeInfo = {
@@ -63,7 +62,12 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 			}	
 		
 			else{
-				$scope.result_table = response;
+				//$scope.result_table = JSON.parse(response);
+				//$scope.result = response;
+				//document.getElementById('simple-report').style.display = 'inline';
+				
+				
+				$scope.result_table = response
 				
 				if(reason == 0){
 					$scope.result = "Data Retrieved: ";
@@ -76,6 +80,7 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 					
 					document.getElementById('search-report').style.display = 'inline';
 				}
+				
 			}
 		});
 	};
