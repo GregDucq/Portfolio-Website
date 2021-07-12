@@ -136,10 +136,11 @@ table, th , td {
 	border: 1px solid black;
 	border-collapse: collapse;
 	padding: 5px;
+	text-align: center;
 }
 
-#student-records-inputs{
-	width: 600px;
+#records-inputs{
+	width: 700px;
 }
 
 #text-input-section{

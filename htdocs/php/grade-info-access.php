@@ -83,12 +83,22 @@
 		$res = $db->query($query);
 		$json_result = array();
 		while($row = $res->fetchArray(SQLITE3_ASSOC)){
+			
+			$course_res = $db->query("select courseID, grade, courseStatus from studentCourseInfo where studentID='" . $row['studentID'] . "' order by courseStatus;");
+			$course_grades = array();
+			
+			while($course_row = $course_res->fetchArray(SQLITE3_ASSOC)){
+				array_push($course_grades, $course_row);
+			}
+			
+			$row['gradeInfo'] = $course_grades;
+			
 			$encoded_row = json_encode($row);
 			array_push($json_result, $row);	
 		}
 		
+		//echo var_dump(json_encode($json_result));
 		echo json_encode($json_result);
-
 	}
 	
 	elseif($request->command == 2){

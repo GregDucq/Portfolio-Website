@@ -6,13 +6,14 @@
 	$db = new SQLite3('../../sqlite3/dbs/college-records/college-records.db');
 	$db->exec("PRAGMA foreign_keys = ON;"); // Needed to enforce foreign key links
 	if($request->command == 0){	
-		$query = 'INSERT INTO courseInfo (courseID, courseName, profID, courseTime, courseDays) VALUES('. 
+		$query = 'INSERT INTO courseInfo (courseID, courseName, profID, courseTime, courseDays, courseCredits) VALUES('. 
 			'\'' . $request->courseID . '\',' .
 			'\'' . $request->courseName . '\',' .
 			'\'' . $request->profID . '\',' .
 			'\'' . $request->courseTime . '\',' .
-			'\'' . $request->courseDays .
-			'\');';
+			'\'' . $request->courseDays . '\',' .
+			$request->courseCredits .
+			');';
 		
 		$res = $db->exec($query);
 		
@@ -63,6 +64,14 @@
 			}
 			
 			$conditions .= (" courseDays='" . $request->courseDays . "'");
+		}
+
+		if(!empty($request->courseCredits)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" courseCredits='" . $request->courseCredits . "'");
 		}
 		
 		// Construct query based on what conditions are given
@@ -121,6 +130,14 @@
 			
 			$conditions .= (" courseDays='" . $request->courseDays . "'");
 		}
+
+		if(!empty($request->courseCredits)){
+			if(!empty($conditions)){
+				$conditions .= " and";
+			}
+			
+			$conditions .= (" courseCredits='" . $request->courseCredits . "'");
+		}
 		
 		// Construct query based on what conditions are given
 		$query = "delete from courseInfo";
@@ -168,6 +185,14 @@
 			}
 			
 			$conditions .= (" courseDays='" . $request->courseDays . "'");
+		}
+
+		if(!empty($request->courseCredits)){
+			if(!empty($conditions)){
+				$conditions .= ", ";
+			}
+			
+			$conditions .= (" courseCredits='" . $request->courseCredits . "'");
 		}
 		
 		if(empty($conditions)){
