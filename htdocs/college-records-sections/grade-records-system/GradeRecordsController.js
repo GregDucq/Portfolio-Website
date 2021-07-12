@@ -62,11 +62,6 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 			}	
 		
 			else{
-				//$scope.result_table = JSON.parse(response);
-				//$scope.result = response;
-				//document.getElementById('simple-report').style.display = 'inline';
-				
-				
 				$scope.result_table = response
 				
 				if(reason == 0){
@@ -148,7 +143,7 @@ mainApp.controller('gradeRecordsController', function($scope, $http){
 		
 		document.getElementById('simple-report').style.display = 'inline';
 	};
-		
+	
 	$scope.missingInput = function(form){
 		return (form.studentID.$invalid || form.studentID.$modelValue.length == 0 ||
 			form.currentGPA.$invalid || form.currentGPA.$modelValue.length == 0 ||

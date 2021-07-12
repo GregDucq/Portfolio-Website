@@ -91,7 +91,7 @@
 								<td>{{course.totalCredits}}</td>
 								<td>{{course.canGrad}}</td>
 								<td>
-									<table>
+									<table ng-show="course.gradeInfo.length != 0;">
 										<tr>
 											<th>Course ID</th>
 											<th>Grade</th>
@@ -103,6 +103,7 @@
 											<td>{{grade.courseStatus}}</td>
 										</tr>
 									</table>
+									<p style="text-align:center;" ng-show="course.gradeInfo.length == 0;">N/A</p>
 								</td>
 							</tr>
 						</table>

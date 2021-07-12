@@ -1,5 +1,5 @@
 <?php
-	error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
+	//error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
 	
 	$gradeVals = array(
     "A+" => 4,
@@ -131,7 +131,7 @@
 		
 		$db->exec($query);
 		
-		echo "Student-Course info from student records.";
+		echo "Student-Course info deleted from student records.";
 	}
 	
 	elseif($request->command == 3){

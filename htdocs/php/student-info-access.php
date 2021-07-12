@@ -1,5 +1,5 @@
 <?php
-	error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
+	//error_reporting (E_ERROR); // Restrict error reporting to errors only to prevent failed SQL queries from being included in output.
 	
 	$postdata = file_get_contents("php://input");
 	$request = json_decode($postdata);
@@ -17,9 +17,9 @@
 			'\'' . $request->phone . '\',' .
 			'\'' . $request->email . 
 			'\');';
-		
+
 		$res = $db->exec($query);
-		
+			
 		if($res){
 			echo "Student entered into database." ;
 		}
